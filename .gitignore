@@ -2,3 +2,4 @@
 *.log
 *.synctex.gz
 node_modules
+www/bundle.js
