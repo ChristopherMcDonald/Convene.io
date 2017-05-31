@@ -1,6 +1,7 @@
 # latex files
 *.aux
 *.log
+*.toc
 *.synctex.gz
 
 # modules
