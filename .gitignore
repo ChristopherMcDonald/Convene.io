@@ -1,5 +1,13 @@
+# latex files
 *.aux
 *.log
 *.synctex.gz
+
+# modules
 node_modules
-www/bundle.js
+
+# testing
+/coverage
+
+# production
+/build
