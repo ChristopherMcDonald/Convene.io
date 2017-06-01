@@ -6,7 +6,6 @@ class NavBar extends React.Component {
         return (
             <div className="NavBar">
                 <div className="logo col-md-4">
-                    <span className="glyphicon glyphicon-calender" aria-hidden="true"></span>
                 </div>
                 <div className="navRow col-md-offset-2 col-md-6">
                     <div className="navItem col-md-4"><p>Features</p></div>
