@@ -8,12 +8,14 @@
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
     "react-scripts": "1.0.7"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "react-scripts start",
+    "start": "react-scripts start & gulp",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
