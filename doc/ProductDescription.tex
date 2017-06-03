@@ -4,6 +4,7 @@
 
 \usepackage{graphicx}   
 \usepackage{amssymb}
+\usepackage{packages/framed}
 
 \title{ Product Requirements \\ Convene.io}
 \author{Christopher McDonald}
@@ -15,22 +16,23 @@
 \tableofcontents
 \section{Product Overview}
 \subsection{Purpose and Scope}
-This product, Convene.io will provide the means of streamlining processes that are typically found during meetings involving various sizes of attendees. This will include the initial planning, distribution of invites, holding the meeting as well as closing it. Traditionally, meetings are seen as a waste of time and can be even more of a waste if not held properly. In order to make meetings more valuable, they must be as fast as possible without sacrificing quality, entice high engagement and only include work which cannot be automated like creative thinking or work done by subject matter experts. \\
+This product, named Convene.io, will provide the means of streamlining processes that are typically found during meetings involving various sizes of attendees. This will include the initial planning, distribution of details, holding the meeting as well as closing it. Traditionally, meetings are seen as a waste of time and can be even more of a waste if not held properly. In order to make meetings more valuable, they must be as fast as possible without sacrificing quality, entice high engagement and only include work which cannot be automated like creative thinking or work done by subject matter experts. \\
 \subsection{Definitions, Terms and Acronyms}
 \begin{itemize}
 \item SaaS: Software-as-a-Service
-\item
+\item 
 \end{itemize}
 \subsection{Stakeholder Identification}
 The stakeholders of this project would include many different people involved in the planning and execution of meetings. They are as follows: \\
 \begin{itemize}
-	\item \textbf{Department Managers:} They would be a stakeholder as they are heavily involved in making decisions regarding what software is used within their department. All decisions they make should be in the department's best interest and the success of the department is dependant on how well they manage it. Since they will be adopting and implementing our product, they will be affected by the outcome of this product.  
+	\item \textbf{Department Managers:} They would be a stakeholder as they are heavily involved in making decisions regarding what software is used within their department. All decisions they make should be in the department's best interest and the success of the department is dependant on how well they manage it. Since they will be adopting and implementing our product, they will be affected by the outcome of Convene.io.  
 	\item \textbf{Scribes/Note Takers:} Perhaps the heaviest users of this product would be responsible for writing the notes during the meetings. The software they use must work with them to achieve the highest quality of work or it would run the risk of dropping it in favour of another. This is because they would be answering and giving notes to their department managers, who would critique their work. For this product to be successful, it must aid the Scribes in producing their work. 
 \end{itemize}
 \section{Market Assessment \& Target Demographics}
-From current market research, there exists many competitors within this space providing similar services.  These would include Directorpoint, Board Effect and Azeus Convene which will be looked at in depth. They all focus on delivering a product which accompanies users during meetings, with slight different features. The predominant features include scheduling, file-sharing and cross-platform capabilities. Many include integrations with services like SharePoint and Box. Although many do not disclose their price via their website, offering free demos by sales employees is very common. One site revealed they charge \$30 per user, with slightly lower or higher costs depending on the business and features desired. Although not confirmed if in-house options are available, many of them are SaaS applications, offering hosting and delivery of the application of the internet. 
+From current market research, there exists many competitors within this space providing similar services.  These would include Directorpoint, Board Effect and Azeus Convene. They all focus on delivering a product which accompanies users during meetings, with slightly different features. The predominant features include scheduling, file-sharing and cross-platform capabilities. Many include integrations with services like SharePoint and Box. Although many do not disclose their price via their website, offering free demos by sales employees is very common. One site revealed they charge \$30 per user, with slightly lower or higher costs depending on the business and features desired. Although not confirmed if in-house hosting options are available, many of them are SaaS applications, offering hosting and delivery of the application of the internet. \\\\
+A potential gap in the market is aligning the product alongside agile initiatives such as Standup Meetings, Sprint goals and retrospectives and integrating with popular applications like Github and JIRA. Most products focus on board meetings which generally include C-suite attendees as opposed to developers and engineers.
 \section{Use Case Diagram}
-\begin{figure}[htbp]
+\begin{figure}[htbp!]
    \centering
    \includegraphics[width=0.8\textwidth]{diagrams/UseCase.png}
    \caption{Use Diagram for Convene.io}
@@ -39,25 +41,147 @@ From current market research, there exists many competitors within this space pr
 % use case list: make meeting, send invites, respond to invite, add text to white board, close meeting, export file, edit meeting
 \section{Requirements}
 \subsection{Functional Requirements}
+
 \begin{framed}
 	\noindent\textbf{Requirement \#}: 1 \hfill \textbf{Requirement Type}: F \hfill\\\\
-	\noindent\textbf{Description}: A User must be able to authenticate \\
-	\textbf{Rationale}: \\
-	\textbf{Fit Criterion}: \\\\
-	\textbf{Originator}: \\\\
+	\noindent\textbf{Description}: A user must be able to schedule a meeting with a destination and time. \\
+	\textbf{Rationale}: A meeting must be created through the interface for users to attend. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
 	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
-	\textbf{Supporting Material}: None\\\\
-	\noindent\textbf{History}: Created 
+	\textbf{Supporting Material}: None\\
 \end{framed}
-\subsection{Usability Requirements}
-\subsection{Technical Requirements}
-\subsection{Environmental Requirements}
-\subsection{Support Requirements}
-\section{Assumptions}
-\section{Constraints}
-\section{Dependencies}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 2 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: A user must be able to edit details of a meeting. \\
+	\textbf{Rationale}: A meeting must be able to be changed in light of events involving the attendees. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: A user must be able to close a meeting. \\
+	\textbf{Rationale}: All meetings must eventually end, changing it's state. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 3 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: A user must be able to close a meeting. \\
+	\textbf{Rationale}: All meetings must eventually end which changes its state. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 4 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: A user must be able to export files and notes from any meeting. \\
+	\textbf{Rationale}: This will allow users to handle the work done during the meeting in a local, electronic format. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 5 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: A user must be able to invite people to a meeting. \\
+	\textbf{Rationale}: This allows distribution of details regarding the meeting. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 6 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: A user must be able to contribute text to a shared whiteboard. \\
+	\textbf{Rationale}: This allows collaboration between all users of one meeting. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 7 \hfill \textbf{Requirement Type}: F \hfill\\\\
+	\noindent\textbf{Description}: The application must be able to integrate with Github to reference commits, users, issues or pull requests. \\
+	\textbf{Rationale}: This allows ease of referencing items within Github, if a user has a Github account. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\subsection{Non-Functional Requirements}
+
+\subsubsection{Performance Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 8 \hfill \textbf{Requirement Type}: P \hfill\\\\
+	\noindent\textbf{Description}: The collaborative whiteboard should update to remote user's input in less than $\tau$ seconds. \\
+	\textbf{Rationale}: In order for successful collaboration, all details should be updated fast enough as to not stifle engagement. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\subsubsection{Capacity Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 9 \hfill \textbf{Requirement Type}: C \hfill\\\\
+	\noindent\textbf{Description}: The application must support $\Psi$ users collaborating on one meeting.  \\
+	\textbf{Rationale}: Due to sizes of meetings varying greatly due to context, this requirement must be satisfied.  \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+\subsubsection{Recoverability Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 10 \hfill \textbf{Requirement Type}: R \hfill\\\\
+	\noindent\textbf{Description}: In the event of a system crash, the system must be able to recover a meeting to its state before the crash. \\ % TODO, how long before? saves every 5 minutes?
+	\textbf{Rationale}: This will prevent the system from losing progress on meeting notes. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+\newpage
+\subsubsection{Maintainability Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 11 \hfill \textbf{Requirement Type}: M \hfill\\\\
+	\noindent\textbf{Description}: The source code for the application must developed with a VCS.
+	\textbf{Rationale}: This will allow the development team to rollback changes to a stable build. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
+\subsubsection{Security Requirements}
+
+\begin{framed}
+	\noindent\textbf{Requirement \#}: 12 \hfill \textbf{Requirement Type}: M \hfill\\\\
+	\noindent\textbf{Description}: Any meeting notes or files shared between users must be encrypted using HTTPS.
+	\textbf{Rationale}: This will allow secure transfer of potentially sensitive information. \\
+%	\textbf{Originator}: Christopher McDonald  \\\\
+	\textbf{Priority}: High \hfill \textbf{Conflicts}: None \hfill\\
+	\textbf{Supporting Material}: None\\
+\end{framed}
+
 \section{High-level Workflow Plans}
-\section{Evaluation Plan and Performance}
+For tracking work items, Github Projects will be used. Separate Projects will be used for Documentation, Startup and Configuration, and separate releases. Tickets will be moved through the workflow as they are completed. With respect to releases, many feature branches will be used along with \textit{master} and \textit{develop} branches. A release will require making a pull request against \textit{master} from \textit{develop} and must pass automated CI tests in order to be merged. The feature branches will be made off of \textit{develop} and can be merged into it when completed and tested. 
+
+\section{Variables}
+
+\begin{center}
+\begin{tabular}{ | c | c | c | }
+ \hline Variable Name & Symbol & Value \\ \hline
+ Response Time & $\tau$ & 5 seconds \\  
+ Number of Users & $\Psi$ & 10 users \\ \hline
+\end{tabular}
+\end{center}
 
 
 \end{document}  
