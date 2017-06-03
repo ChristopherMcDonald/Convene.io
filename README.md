@@ -9,7 +9,8 @@ A Meeting Application to streamline processes and increase productivity
 Follow these instructions:  
 - `git clone https://github.com/ChristopherMcDonald/Convene.io.git`
 - `cd Convene.io/app/`
-- *Optional* `git checkout develop`
+- *For active deploys*: `git checkout develop`
+- *For last release*: `git checkout master`
 - `npm install`
 - Grab coffee...
 - `gulp styles && npm start`
