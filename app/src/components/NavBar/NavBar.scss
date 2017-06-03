@@ -1,6 +1,56 @@
+$highlight: #2980B9;
+$lowlight: #4995C7;
+$accent: #22C476;
+
+$grey: #95a5a6;
+$white: #ecf0f1;
+
+//fonts
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
 .NavBar {
-    background-color: aqua;
-    display: inline-block;
+    background-color: $lowlight;
     width: 100%;
+    padding: 5px;
+    height: 60px;
+    
+    > .logo {
+        padding: 5px 0;
+        height: 100%;
+    }
+    
+    > .logo > i {
+    }
+    
+    > .logo > p {
+        display: inline-block;
+        font: 1.4em 'Raleway', sans-serif;
+    }
+    
+    > .navRow {
+        height: 100%;
+        
+    }
+    
+    > .navRow > .navItem {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    > .navRow > .navItem > span {
+        display: inline-block;
+        text-align: right;
+    }
+    
+        > .navRow > .navItem > span > p {
+            display: inline-block;
+            font: 1.2em 'Raleway', sans-serif;
+            &:hover {
+                color: $grey;
+                cursor: pointer;
+            }   
+    }
 }
 
