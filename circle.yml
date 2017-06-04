@@ -1,0 +1,9 @@
+## Customize dependencies
+dependencies:
+  pre:
+    - cd app/ && npm install
+
+## Customize test commands
+test:
+  override:
+    - cd app/ && npm test
