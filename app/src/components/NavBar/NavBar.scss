@@ -1,12 +1,4 @@
-$highlight: #2980B9;
-$lowlight: #4995C7;
-$accent: #22C476;
-
-$grey: #95a5a6;
-$white: #ecf0f1;
-
-//fonts
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import "../../styles/base"
 
 .NavBar {
     background-color: $lowlight;

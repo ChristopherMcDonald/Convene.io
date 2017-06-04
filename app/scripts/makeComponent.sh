@@ -26,3 +26,4 @@ echo
 echo "export default "$NAME";"
 )>./../src/components/$NAME/$NAME$JS
 
+echo "@import \"../../styles/base\"" > ./../src/components/$NAME/$NAME$SCSS
