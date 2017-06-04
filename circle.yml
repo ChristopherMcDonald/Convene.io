@@ -1,6 +1,13 @@
+# whitelist which branches to listen to
+general:
+  branches:
+    only:
+      - master
+
 ## Customize dependencies
 dependencies:
   pre:
+    - npm install gulp --save-dev
     - cd app/ && npm install
 
 ## Customize test commands
