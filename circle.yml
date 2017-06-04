@@ -7,7 +7,7 @@ general:
 ## Customize dependencies
 dependencies:
   pre:
-    - npm install gulp --save-dev
+    - npm install -g gulp
     - cd app/ && npm install
 
 ## Customize test commands
