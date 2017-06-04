@@ -3,6 +3,7 @@ general:
   branches:
     only:
       - master
+      - develop
 
 ## Customize dependencies
 dependencies:
