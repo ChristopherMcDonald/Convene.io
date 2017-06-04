@@ -4,6 +4,7 @@ general:
     only:
       - master
       - develop
+      
 
 ## Customize dependencies
 dependencies:
