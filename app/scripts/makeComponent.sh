@@ -4,7 +4,7 @@ NAME=$1
 JS=".js"
 SCSS=".scss"
 TEST=".test.js"
-CSS=".test.js"
+CSS=".css"
 
 mkdir ./../src/components/$NAME
 touch ./../src/components/$NAME/$NAME$JS
@@ -26,4 +26,4 @@ echo
 echo "export default "$NAME";"
 )>./../src/components/$NAME/$NAME$JS
 
-echo "@import \"../../styles/base\"" > ./../src/components/$NAME/$NAME$SCSS
+echo "@import \"../../styles/base\";" > ./../src/components/$NAME/$NAME$SCSS
