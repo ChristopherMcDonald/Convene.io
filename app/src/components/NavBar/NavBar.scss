@@ -1,48 +1,44 @@
 @import "../../styles/base";
 
 .NavBar {
-    background-color: $lowlight;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
     width: 100%;
-    padding: 5px;
-    height: 60px;
-    
-    > .logo {
-        padding: 5px 0;
-        height: 100%;
-    }
-    
-    > .logo > i {
-    }
-    
-    > .logo > p {
-        display: inline-block;
-        font: 1.4em 'Raleway', sans-serif;
-    }
-    
-    > .navRow {
-        height: 100%;
-        
-    }
-    
-    > .navRow > .navItem {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    
-    > .navRow > .navItem > span {
-        display: inline-block;
-        text-align: right;
-    }
-    
-        > .navRow > .navItem > span > p {
-            display: inline-block;
-            font: 1.2em 'Raleway', sans-serif;
-            &:hover {
-                color: $grey;
-                cursor: pointer;
-            }   
-    }
-}
+    background-color: $lowlight;
 
+    .logo h1 {
+        font-family: 'Raleway';
+        font-size: 2.2em;
+        margin: 0;
+        padding: 10px 0px;
+    }
+
+    .navRow {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+
+        div {
+            position: relative;
+            height: 100%;
+
+            p {
+                position: absolute;
+                bottom: 0;
+                right: 10%;
+                font-family: 'Raleway';
+                font-size: 1.4em;
+                padding-bottom: 5px;
+
+                &:hover {
+                    cursor: pointer;
+                    color: $white;
+                }
+            }
+
+        }
+    }
+
+}

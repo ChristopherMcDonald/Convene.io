@@ -1,0 +1,40 @@
+@import "../../styles/base";
+
+.features {
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+    padding: 15px;
+    background-color: #333;
+    // if large, padding top and bottom big big big
+
+    h2 {
+        margin: 0;
+        margin-bottom: 10px;
+        padding: 0;
+        font-family: 'Roboto';
+        font-size: 3em;
+        color: $accent;
+
+    }
+
+    > .card {
+        color: white;
+        text-align: center;
+        // margin-bottom: 40px;
+    }
+
+    > .card > i {
+        color: white;
+        text-align: center;
+        font-size: 3.8em;
+    }
+
+    > .card > h3 {
+        color: white;
+        margin: 0;
+        margin-top: 5px;
+        font-size: 2.1em;
+        font-family: 'Roboto', sans-serif;
+    }
+}

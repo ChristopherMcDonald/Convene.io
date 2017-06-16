@@ -1,25 +1,32 @@
 import React from 'react';
 import "./NavBar.css";
+import scrollToComponent from 'react-scroll-to-component';
 
 class NavBar extends React.Component {
     render() {
         return (
             <div className="NavBar">
                 <div className="logo col-sm-4">
-                    <i className="fa fa-2x fa-calendar-check-o"> </i>
-                    <p>&nbsp;Convene.io</p>
+                    <h1>Convene.io</h1>
                 </div>
-                <div className="navRow hidden-xs col-sm-offset-2 col-sm-6">
-                    <div className="navItem col-sm-4">              <span><p>Features</p></span>
+                <div className="navRow hidden-xs col-sm-8">
+                    <div className="col-sm-4">
+                        <p>Features</p>
                     </div>
-                    <div className="navItem col-sm-4">              <span><p>About</p></span>
+                    <div className="col-sm-4">
+                        <p>About</p>
                     </div>
-                    <div className="navItem col-sm-4">              <span><p>Contact</p></span>
+                    <div className="col-sm-4">
+                        <p>Contact</p>
                     </div>
                 </div>
             </div>
         );
     }
+    
+//    scrollToAbout() {
+//        scrollToComponent(this.props.about);
+//    }
 }
 
 export default NavBar;
