@@ -1,6 +1,6 @@
 import React from 'react';
 import "./NavBar.css";
-import scrollToComponent from 'react-scroll-to-component';
+// import  from 'react-scroll-to-component';
 
 class NavBar extends React.Component {
     render() {
@@ -23,7 +23,7 @@ class NavBar extends React.Component {
             </div>
         );
     }
-    
+
 //    scrollToAbout() {
 //        scrollToComponent(this.props.about);
 //    }

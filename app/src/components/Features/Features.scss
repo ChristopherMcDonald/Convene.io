@@ -6,7 +6,6 @@
     margin: 0;
     padding: 15px;
     background-color: #333;
-    // if large, padding top and bottom big big big
 
     h2 {
         margin: 0;
@@ -36,5 +35,18 @@
         margin-top: 5px;
         font-size: 2.1em;
         font-family: 'Roboto', sans-serif;
+    }
+}
+
+@media(min-width:1200px) {
+    .features {
+
+        h2 {
+            margin: 1% 0 5% 0;
+        }
+
+        > .card {
+            margin: 1% 0;
+        }
     }
 }

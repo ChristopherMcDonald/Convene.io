@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
-import './Login.css'
+import './Login.css';
 
 class Login extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {showModal: false};
+    }
+
+    open() {
+        this.setState({showModal: true});
+    }
+
+    close() {
+        // this.setState({showModal: false});
+        console.log("hello");
+    }
+
     render() {
         return (
             <div className='loginWrapper'>
@@ -9,13 +24,13 @@ class Login extends Component {
                     <h1 className='loginText'>Let's Make Meetings <span>Work</span></h1>
                     <div className='col-sm-6 col-sm-offset-3 col-xl-4 col-xl-offset-4 loginForm'>
                         <form>
-                            <label for="email">Email Address</label>
+                            <label htmlFor="email">Email Address</label>
                             <input placeholder="alice@wonderland.com" type="text" className="email form-control" />
 
-                            <label for="email">Password</label>
+                            <label htmlFor="email">Password</label>
                             <input type="password" className="email form-control" />
                             <button className="btn btn-primary" >Submit</button>
-                            <button className="btn btn-info">First Time? Sign up</button>
+                            <button onClick={this.open.bind(this)} type="button" className="btn btn-info" data-toggle="modal" data-target="#signup-modal">First Time? Sign up</button>
                         </form>
                     </div>
                 </div>
