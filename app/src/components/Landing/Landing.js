@@ -14,8 +14,8 @@ class Landing extends Component {
                 <NavBar />
                 <Login />
                 <Features />
-                <About />
-                <Contact />
+                {/*<About />
+                <Contact />*/}
             </div>
         );
     }
