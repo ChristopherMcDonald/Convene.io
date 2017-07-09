@@ -8,20 +8,12 @@ class Login extends Component {
         this.state = {showModal: false};
     }
 
-    open() {
-        this.setState({showModal: true});
-    }
-
-    close() {
-        // this.setState({showModal: false});
-        console.log("hello");
-    }
-
     render() {
         return (
             <div className='loginWrapper'>
                 <div className='login'>
                     <h1 className='loginText'>Let's Make Meetings <span>Work</span></h1>
+                    <h2 className='loginSubHeader'>Enable Productivity, Streamline Processes and Foster Creativity.</h2>
                     <div className='col-sm-6 col-sm-offset-3 col-xl-4 col-xl-offset-4 loginForm'>
                         <form>
                             <label htmlFor="email">Email Address</label>
@@ -30,7 +22,7 @@ class Login extends Component {
                             <label htmlFor="email">Password</label>
                             <input type="password" className="email form-control" />
                             <button className="btn btn-primary" >Submit</button>
-                            <button onClick={this.open.bind(this)} type="button" className="btn btn-info" data-toggle="modal" data-target="#signup-modal">First Time? Sign up</button>
+                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#signup-modal">First Time? Sign up</button>
                         </form>
                     </div>
                 </div>

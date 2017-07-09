@@ -6,10 +6,10 @@ class NavBar extends React.Component {
     render() {
         return (
             <div className="NavBar">
-                <div className="logo col-sm-4">
+                <div className="logo col-sm-6">
                     <h1>Convene.io</h1>
                 </div>
-                <div className="navRow hidden-xs col-sm-8">
+                <div className="navRow hidden-xs col-sm-6">
                     <div className="col-sm-4">
                         <p>Features</p>
                     </div>
