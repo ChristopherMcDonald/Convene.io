@@ -15,12 +15,12 @@ touch ./../src/components/$NAME/$NAME$TEST
 
 (
 echo "import React, { Component } from 'react';"
-echo "import './"$NAME".css'"
-echo 
+echo "import './"$NAME".css';"
+echo
 echo "class "$NAME" extends Component {"
-echo "   render() {"
-echo "       return <div className='"$NAME"'></div>;"
-echo "   }"
+echo "    render() {"
+echo "        return <div className='"$NAME"'></div>;"
+echo "    }"
 echo "}"
 echo
 echo "export default "$NAME";"
