@@ -24,20 +24,25 @@
             position: relative;
             height: 100%;
 
-            p {
-                position: absolute;
-                bottom: 0;
-                right: 10%;
-                font-family: 'Raleway';
-                font-size: 1.4em;
-                padding-bottom: 5px;
+            a {
 
-                &:hover {
-                    cursor: pointer;
-                    color: $white;
+                text-decoration: none !important;
+                color: black;
+
+                p {
+                    position: absolute;
+                    bottom: 0;
+                    right: 10%;
+                    font-family: 'Raleway';
+                    font-size: 1.4em;
+                    padding-bottom: 5px;
+
+                    &:hover {
+                        cursor: pointer;
+                        color: $white;
+                    }
                 }
             }
-
         }
     }
 

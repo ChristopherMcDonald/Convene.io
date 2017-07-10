@@ -8,6 +8,10 @@ class Login extends Component {
         this.state = {showModal: false};
     }
 
+    navToSignup() {
+        window.location = "/signup";
+    }
+
     render() {
         return (
             <div className='loginWrapper'>
@@ -19,10 +23,10 @@ class Login extends Component {
                             <label htmlFor="email">Email Address</label>
                             <input placeholder="alice@wonderland.com" type="text" className="email form-control" />
 
-                            <label htmlFor="email">Password</label>
-                            <input type="password" className="email form-control" />
+                            <label htmlFor="password">Password</label>
+                            <input type="password" className="password form-control" />
                             <button className="btn btn-primary" >Submit</button>
-                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#signup-modal">First Time? Sign up</button>
+                            <button type="button" className="btn btn-info" data-toggle="modal" data-target="#signup-modal" onClick={this.navToSignup}>First Time? Sign up</button>
                         </form>
                     </div>
                 </div>
