@@ -36,12 +36,11 @@ app.use((req,res,next) => {
 var Users = require(path.resolve( __dirname, 'schemas/Users'));
 app.get('/users/me', (req, res) => {
     if(!req.jwt_auth) {
-        res.send("error! no jwt_auth");
+        res.status(401).send({res: "invalid", action: "redirect to login"});
     }
-
     Users.findOne({_id: req.jwt_auth.claims.claim}, 'email alias team').then((user) => {
-        if(user) res.status(200).send({user: user});
-        else res.status(404).send("couldn't find user")
+        if(user) res.status(200).send({res: "valid", user: user});
+        else res.status(404).send({res: "invalid", user: undefined});
     }).catch((err) => {
         res.status(500).send("internal error!");
     });
@@ -63,16 +62,16 @@ app.post("/users/create", (req, res) => {
 
     user.save().then((user) => {
         console.log("User made with id: " + user.id);
-        res.status(200).send(user.id);
+        res.status(200).send({id: user.id});
     }).catch((err) => {
         console.log(err);
         res.status(500).send("internal error");
     });
 });
 
-app.post("/users/login/", (req, res) => {
+app.post("/users/login", (req, res) => {
     Users.findOne( {email: req.body.email}).then((user) => {
-        if(scrypt.verifyKdfSync(user.password, req.body.password)) {
+        if(user !== undefined && scrypt.verifyKdfSync(user.password, req.body.password)) {
             jwt.sign({claim: user.id},(err, data) => {
                 // the token must be added in the header as 'Authorization'
                 res.json({res: "valid", token: 'JWT ' + data});
@@ -81,7 +80,7 @@ app.post("/users/login/", (req, res) => {
             res.json({res: "invalid"});
         }
     }).catch((err) => {
-        Console.log(err);
+        console.log(err);
         res.status(500).send("internal error!");
     });
 });
