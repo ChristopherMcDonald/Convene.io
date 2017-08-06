@@ -3,21 +3,24 @@ import './SignIn.css';
 
 class SignIn extends Component {
     render() {
-        return (<div className='SignIn'>
-                    <div className='well'>
-                        <form>
-                          <div class="form-group">
-                            <label for="formGroupExampleInput">Email Address</label>
-                            <input type="text" class="form-control" id="email-address" placeholder="lets@convene.io"></input>                      </div>
-                          <div class="form-group">
-                            <label for="formGroupExampleInput2">Password</label>
-                            <input type="password" class="form-control" id="password"></input> 
-                          </div>
-                          <button type="submit" class="btn btn-primary">Submit</button>
-                          <button type="button" class="btn btn-success">First time? Sign up!</button>
-                        </form>
-                    </div>
-                </div>);
+        return (
+            <div className='SignIn'>
+                <div className='well'>
+                    <form>
+                        <div className="form-group">
+                            <label className='form-label' for="email-address">Email Address</label>
+                            <input type="text" className="form-control" id="email-address" placeholder="lets@convene.io"></input>
+                        </div>
+                        <div className="form-group">
+                            <label className='form-label' for="password">Password</label>
+                            <input type="password" className="form-control" id="password" placeholder="Super Secret..."></input>
+                        </div>
+                        <button type="submit" className="btn btn-primary top-btn">Sign In</button>
+                        <button type="button" className="btn btn-success">First time? Sign up!</button>
+                    </form>
+                </div>
+            </div>
+        );
     }
 }
 
