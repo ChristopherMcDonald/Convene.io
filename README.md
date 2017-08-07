@@ -5,6 +5,10 @@ A Meeting Application to streamline processes and increase productivity
 - app/ contains all the code used to make this application
 - doc/ contains all the documentation for this application
 
+## Dependencies
+- Mongo Server, with a `convene` database
+- Gulp CLI, run `npm install -g gulp`
+
 ## How to run Convene.io
 Follow these instructions:  
 - `git clone https://github.com/ChristopherMcDonald/Convene.io.git`
@@ -13,4 +17,5 @@ Follow these instructions:
 - *For last release*: `git checkout master`
 - `npm install`
 - Grab coffee...
+- `mongod`
 - `gulp styles && npm run server && npm start`
