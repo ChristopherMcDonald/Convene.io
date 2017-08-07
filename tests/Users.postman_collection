@@ -1,0 +1,173 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Convene.io - Users",
+		"_postman_id": "d3f92dbc-8758-3b90-aeca-1d225cb22bec",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:4000/users/create",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/create\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response has an id\"] = (body.id !== undefined);",
+							"    tests[\"response id is not empty\"] = (body.id !== \"\");",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/users/create",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": {\n\t\t\"first\": \"Christopher(Test)\",\n\t\t\"last\": \"McDonald\"\n\t},\n\t\"email\": \"christophermcdonald@convene.io\",\n\t\"alias\": \"Chris\",\n\t\"team\": \"convene\",\n\t\"password\": \"Password123!!!\"\n}"
+				},
+				"description": "Creating a User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/users/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/login\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a token\"] = (body.token !== undefined);",
+							"    tests[\"token has correct format\"] = (body.token.startsWith('JWT '));",
+							"    ",
+							"    postman.setEnvironmentVariable(\"jwt\", body.token);",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/users/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"christophermcdonald@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
+				},
+				"description": "Get Newly Made User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/users/me",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/me\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a user\"] = (body.user !== undefined);",
+							"    tests[\"user has the right information\"] = ",
+							"            (body.user.alias === \"Chris\" ",
+							"            && body.user.email === \"christophermcdonald@convene.io\" ",
+							"            && body.user.team === \"convene\");",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/users/me",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Getting the current user"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/users/me",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 401) {",
+							"    tests[\"401 response from users/me (expected)\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"invalid\");",
+							"    tests[\"response has no user\"] = (body.user === undefined);",
+							"    tests[\"user has the right information\"] = (body.action === \"redirect to login\");",
+							"} else {",
+							"    tests[\"401 response from users/me (expected)\"] = false;",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"jwt\", undefined);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/users/me",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Post logout attempt at users/me"
+			},
+			"response": []
+		}
+	]
+}

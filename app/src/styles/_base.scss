@@ -1,19 +1,13 @@
 //colours
-$highlight: #2980B9;
-$lowlight: #4995C7;
-$accent: #22C476;
-$grey: #95a5a6;
-$white: #ecf0f1;
+$light: #C5D1EB;
+$l-orange: #FF6201;
+$d-orange: #FA4616;
+$l-blue: #1B2347;
+$d-blue: #0B132B;
 
 //fonts
-@import url('https://fonts.googleapis.com/css?family=Raleway');
-@import url('https://fonts.googleapis.com/css?family=Lora');
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans|Raleway');
 
-
-//img path
-$img: "../../styles/img/";
-$landing: $img + "meeting.jpg";
 
 // Extra small screen / phone
 $screen-xs:                  480px;
