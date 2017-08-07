@@ -1,6 +1,7 @@
 var path = require('path');
 var config = require(path.resolve( __dirname, 'config.json'));
 var express = require('express');
+var cors = require('cors');
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 var bodyParser = require('body-parser');
@@ -15,8 +16,19 @@ jwt = new JWT({
 // TODO test expiration stuff
 jwt.setSecret(config.secret);
 
+var whitelist = ['http://localhost:3000'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+};
 var app = express();
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
 app.use((req,res,next) => {
     req.jwt_auth = false;
     if(req.headers['authorization'] &&
@@ -51,7 +63,7 @@ app.get('/users/me', (req, res) => {
 app.post("/users/create", (req, res) => {
     var user = new Users({
         name: {
-            first: req.body.name.last,
+            first: req.body.name.first,
             last: req.body.name.last
         },
         alias: req.body.alias,

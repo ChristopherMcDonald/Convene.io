@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Landing from './components/Landing/Landing';
+import SignUp from './components/SignUp/SignUp';
+import Home from './components/Home/Home';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
 import './styles/font-awesome-4.7.0/css/font-awesome.min.css';
@@ -12,6 +14,8 @@ const Main = () => (
     <main>
         <Switch>
             <Route exact path='/' component={Landing}/>
+            <Route exact path='/signup' component={SignUp}/>
+            <Route exact path='/home' component={Home}/>
         </Switch>
     </main>
 );
