@@ -10,8 +10,11 @@ dependencies:
     - cd app/ && npm install -g gulp
     - cd app/ && npm config set registry http://registry.npmjs.org/
     - cd app/ && npm install
+    - cd app/ && npm install -g newman
 
 ## Customize test commands
 test:
   override:
     - cd app/ && gulp styles && npm test
+    - cd app/ && ./cleanup.sh
+    - cd app/ && npm run server && newman run Users.postman_collection

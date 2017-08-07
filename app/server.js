@@ -16,10 +16,11 @@ jwt = new JWT({
 // TODO test expiration stuff
 jwt.setSecret(config.secret);
 
-var whitelist = ['http://localhost:3000'];
+var whitelist = ['http://localhost:3000', undefined]; // undefined added for newman runner
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
+
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
