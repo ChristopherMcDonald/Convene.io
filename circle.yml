@@ -16,5 +16,6 @@ dependencies:
 test:
   override:
     - cd app/ && gulp styles && npm test
-    - cd app/ && ./cleanup.sh
-    - cd app/ && npm run server && newman run Users.postman_collection
+    - ./tests/cleanup.sh
+    - cd app/ && npm run server
+    - sleep 5 && newman run Users.postman_collection
