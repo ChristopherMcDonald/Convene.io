@@ -15,6 +15,3 @@ node_modules
 
 # buildfiles
 *.css
-
-# config files
-app/config.json
