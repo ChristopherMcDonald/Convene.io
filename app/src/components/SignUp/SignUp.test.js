@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NavBar from './NavBar';
+import SignUp from './SignUp';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<NavBar />, div);
+  ReactDOM.render(<SignUp />, div);
 });

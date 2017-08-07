@@ -13,4 +13,4 @@ Follow these instructions:
 - *For last release*: `git checkout master`
 - `npm install`
 - Grab coffee...
-- `gulp styles && npm start`
+- `gulp styles && npm run server && npm start`
