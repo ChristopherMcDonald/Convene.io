@@ -5,7 +5,6 @@ import SignUp from './components/SignUp/SignUp';
 import Home from './components/Home/Home';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
-import './styles/font-awesome-4.7.0/css/font-awesome.min.css';
 
 import { BrowserRouter } from 'react-router-dom';
 import { Switch, Route } from 'react-router-dom';
