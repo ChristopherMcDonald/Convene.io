@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ConveneMessage from '../ConveneMessage/ConveneMessage';
 import './SignUp.css';
 
 class SignUp extends Component {
@@ -19,11 +20,15 @@ class SignUp extends Component {
             confPassword: '',
             emailWarning: '',
             passwordWarning: '',
+            conveneMessage: {
+                type: '',
+                message: '',
+                active: 'message-inactive'
+            }
         };
     }
 
     handleChange(event) {
-        console.log('change!');
         const name = event.target.name;
         this.setState({
             [name]: event.target.value
@@ -51,29 +56,92 @@ class SignUp extends Component {
     }
 
     handleSubmit(event) {
-        // TODO validate dem fields
+        this.hideMessage();
         var user = {
             name: {
                     first: this.state.firstName,
                     last: this.state.lastName
             },
             password: this.state.password,
+            confPassword: this.state.password,
             alias: this.state.alias,
             email: this.state.email,
             team: this.state.team
         };
-        axios.post('http://localhost:4000/users/create', user)
-        .then(function (response) {
+        if(! /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(user.email)) {
+            this.showMessage("danger", "That email doesn't look right, ensure it is spelt correctly.");
+            event.preventDefault();
+            return;
+        }
+
+        if(user.password !== user.confPassword) {
+            this.showMessage("danger", "Those passwords do not match, ensure they are spelt the same!");
+            event.preventDefault();
+            return;
+        }
+
+        var message = "Please ensure all fields are filled out correctly. [";
+        var show = false;
+        if(user.name.first === '') {
+            message += "First Name is missing, ";
+            show = true;
+        }
+        if(user.name.last === '') {
+            message += "Last Name is missing, ";
+            show = true;
+        }
+        if(user.alias.length < 3) {
+            message += "Alias is too short, ";
+            show = true;
+        }
+        if(user.email === '') {
+            message += "Email is empty, ";
+            show = true;
+        }
+        if(user.team === '') {
+            message += "Team is missing, ";
+            show = true;
+        }
+        if(! /^(?=.*\d).{6,}$/.test(user.password)) {
+            message += "Password must be longer than 6 characters and have one number, ";
+            show = true;
+        }
+
+        if(show) {
+            this.showMessage('danger', message.substr(0, message.length - 2) + "]");
+            event.preventDefault();
+            return;
+        }
+
+        var self = this;
+        axios.post('http://localhost:4000/users/create', user, { validateStatus: (status) => { return status < 500; }})
+        .then((response) => {
             console.log(response);
             if(response.data.id) {
                 window.location = '/';
-            } else {
-                // TODO show user error
+            } else if(response.status === 422) {
+                self.showMessage('danger', response.data);
             }
-        }).catch(function (error) {
+        }).catch((error) => {
             console.log(error);
         });
         event.preventDefault();
+    }
+
+    showMessage(type, message) {
+        var self = this;
+        self.setState({ conveneMessage: {
+            type: type,
+            message: message,
+            active: 'message-active'
+            }
+        });
+    }
+
+    hideMessage() {
+        this.setState({ conveneMessage:
+            { active: 'message-inactive'}
+        });
     }
 
     render() {
@@ -114,6 +182,7 @@ class SignUp extends Component {
                         <button type="submit" className="btn btn-success top-btn">Sign Up!</button>
                     </form>
                 </div>
+                <ConveneMessage type={this.state.conveneMessage.type} message={this.state.conveneMessage.message} active={this.state.conveneMessage.active}></ConveneMessage>
             </div>
         );
     }
