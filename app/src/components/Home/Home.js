@@ -15,10 +15,10 @@ class Home extends Component {
     componentWillMount() {
         var self = this;
         axios.get('http://localhost:4000/users/me')
-          .then(function (response) {
+          .then((response) => {
             self.setState({ user: response.data.user});
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
             // window.location = '/';
           });

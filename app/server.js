@@ -18,9 +18,8 @@ jwt.setSecret(config.secret);
 
 var whitelist = ['http://localhost:3000', undefined]; // undefined added for newman runner
 var corsOptions = {
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     if (whitelist.indexOf(origin) !== -1) {
-
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
@@ -41,15 +40,15 @@ app.use((req,res,next) => {
             next();
         });
     } else {
-        next();
+        res.status(401).send({res: "invalid", reason: "bad credentials"})
     }
 });
 
-//
+
 var Users = require(path.resolve( __dirname, 'schemas/Users'));
 app.get('/users/me', (req, res) => {
     if(!req.jwt_auth) {
-        res.status(401).send({res: "invalid", action: "redirect to login"});
+        res.status(401).send({res: "invalid", reason: "bad authorization"});
     }
     Users.findOne({_id: req.jwt_auth.claims.claim}, 'email alias team').then((user) => {
         if(user) res.status(200).send({res: "valid", user: user});
@@ -62,6 +61,48 @@ app.get('/users/me', (req, res) => {
 
 // TODO add some regex and validate dem fields
 app.post("/users/create", (req, res) => {
+    if(! /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(req.body.email)) {
+        res.status(422).send("That email doesn't look right, ensure it is spelt correctly.");
+        return;
+    }
+
+    if(req.body.password !== req.body.confPassword) {
+        res.status(422).send("Those passwords do not match, ensure they are spelt the same!");
+        return;
+    }
+
+    var message = "Please ensure all fields are filled out correctly. [";
+    var show = false;
+    if(req.body.name.first === '') {
+        message += "First Name is missing, ";
+        show = true;
+    }
+    if(req.body.name.last === '') {
+        message += "Last Name is missing, ";
+        show = true;
+    }
+    if(req.body.alias.length < 3) {
+        message += "Alias is too short, ";
+        show = true;
+    }
+    if(req.body.email === '') {
+        message += "Email is empty, ";
+        show = true;
+    }
+    if(req.body.team === '') {
+        message += "Team is missing, ";
+        show = true;
+    }
+    if(! /^(?=.*\d).{6,}$/.test(req.body.password)) {
+        message += "Password must be longer than 6 characters and have one number, ";
+        show = true;
+    }
+
+    if(show) {
+        res.status(422).send(message.substr(0, message.length - 2) + "]");
+        return;
+    }
+
     var user = new Users({
         name: {
             first: req.body.name.first,
@@ -84,17 +125,16 @@ app.post("/users/create", (req, res) => {
 
 app.post("/users/login", (req, res) => {
     Users.findOne( {email: req.body.email}).then((user) => {
-        if(user !== undefined && scrypt.verifyKdfSync(user.password, req.body.password)) {
+        if(user && scrypt.verifyKdfSync(user.password, req.body.password)) {
             jwt.sign({claim: user.id},(err, data) => {
                 // the token must be added in the header as 'Authorization'
-                res.json({res: "valid", token: 'JWT ' + data});
+                res.status(200).json({res: "valid", token: 'JWT ' + data});
             });
         } else {
-            res.json({res: "invalid"});
+            res.status(401).json({res: "invalid", reason: "bad credentials"});
         }
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send("internal error!");
+    }).catch((err) => { // no user of that email
+        res.status(500).json({res: "invalid"});
     });
 });
 
