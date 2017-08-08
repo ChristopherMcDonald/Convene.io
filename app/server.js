@@ -58,8 +58,6 @@ app.get('/users/me', (req, res) => {
     });
 });
 
-
-// TODO add some regex and validate dem fields
 app.post("/users/create", (req, res) => {
     if(! /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(req.body.email)) {
         res.status(422).send("That email doesn't look right, ensure it is spelt correctly.");
