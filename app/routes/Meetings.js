@@ -3,8 +3,6 @@ module.exports = function(app, jwt) {
     var Meetings = require(path.resolve(__dirname, '../schemas/Meetings'));
     var Teams = require(path.resolve(__dirname, '../schemas/Teams'));
 
-    // get meeting by and meetingid, make meeting, edit meeting, close meeting, delete meeting
-
     app.get('/meeting/:meetingId', (req, res) => {
         Meetings.findOne({team: req.jwt_auth.claims.team, _id: req.params.meetingId}).then(meeting => {
             if(meeting) res.status(200).send({meeting: meeting});
@@ -76,7 +74,7 @@ module.exports = function(app, jwt) {
             eventDate: req.body.eventDate,
             description: req.body.description,
             closed: req.body.closed
-        }).then(meeting => {
+        }, {new: true}).then(meeting => {
             res.status(200).send({meeting: meeting});
         }).catch(err => {
             console.log(err);
@@ -84,18 +82,59 @@ module.exports = function(app, jwt) {
         });
     });
 
-    app.put('/meeting/invite', (req, res) => {
-        // TODO write
+    app.put('/meeting/:meetingId/invite', (req, res) => {
+        Meetings.findOne({_id: req.params.meetingId}).then(meeting => {
+            if(!meeting) {
+                res.status(404).send({description: "Not Found"});
+                return;
+            }
+            meeting.invitedMembers = [...meeting.invitedMembers , ...req.body.emails];
+            meeting.save().then(meeting => {
+                res.status(201).send({meeting: meeting});
+            }).catch(err => {
+                console.log(err);
+                res.status(500).send({description: "internal error"});
+            });
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send({description: "internal error"});
+        });
     });
 
-    app.delete('/meeting/invite', (req, res) => {
-        // TODO write
+    app.delete('/meeting/:meetingId/invite', (req, res) => {
+        Meetings.findOne({_id: req.params.meetingId}).then(meeting => {
+            if(!meeting) {
+                res.status(404).send({description: "Not Found"});
+                return;
+            }
+            meeting.invitedMembers = meeting.invitedMembers.filter(email => !req.body.emails.includes(email));
+            meeting.save().then(meeting => {
+                res.status(201).send({meeting: meeting});
+            }).catch(err => {
+                console.log(err);
+                res.status(500).send({description: "internal error"});
+            });
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send({description: "internal error"});
+        });
     });
 
     app.put('/meeting/:meetingId/close', (req, res) => {
         Meetings.findOneAndUpdate({team: req.jwt_auth.claims.team, _id: req.params.meetingId}, {
             closed: true
-        }).then(meeting => {
+        }, {new: true}).then(meeting => {
+            res.status(200).send({meeting: meeting});
+        }).catch(err => {
+            console.log(err);
+            res.status(500).send({description: "internal error"});
+        });
+    });
+
+    app.put('/meeting/:meetingId/open', (req, res) => {
+        Meetings.findOneAndUpdate({team: req.jwt_auth.claims.team, _id: req.params.meetingId}, {
+            closed: false
+        }, {new: true}).then(meeting => {
             res.status(200).send({meeting: meeting});
         }).catch(err => {
             console.log(err);

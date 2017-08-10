@@ -43,8 +43,12 @@ module.exports = function(app,jwt,scrypt) {
             return;
         }
 
-        // todo check if email is in team's list of invited emails, where team is team w/ req.params.teamId
         Teams.findOne({_id: req.body.team}).then(team => {
+            if(!team) {
+                res.status(404).send({description: "Not Found"});
+                return;
+            }
+
             if(!team.invitedMembers.includes(req.body.email)) {
                 res.status(422).send("You are not in your teams invited list of members.");
                 return;
