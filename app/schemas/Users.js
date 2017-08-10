@@ -7,15 +7,14 @@ var usersSchema = new Schema({
         first: String,
         last: String
     },
-    email: String,
+    email: {type: String, unique: true},
     alias: String,
-    team: String,
-    password: Buffer
+    password: Buffer,
+    team: Schema.Types.ObjectId
 }, {
     collection: "users"
 });
 
-// we need to create a model using it
 var Users = mongoose.model('Users', usersSchema);
 
 module.exports = Users;
