@@ -1,6 +1,6 @@
 # whitelist which branches to listen to
 general:
-  branches: [/feature_.*/, develop]
+  branches: [/feature.*/, develop]
 
 ## Customize dependencies
 dependencies:
