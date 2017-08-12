@@ -16,8 +16,9 @@ var corsOptions = {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
-    }
   }
+},
+exposedHeaders: ['authorization']
 };
 var app = express();
 app.use(bodyParser.json());
@@ -42,6 +43,17 @@ app.use((req,res,next) => {
                     throw err;
                 }
             }
+
+            var now = new Date() / 1000;
+            if( (now - 15*60) < jwt_data) {
+                jwt_data.exp = jwt_data.exp + (60 * 60);
+            }
+            jwt.sign(jwt_data, config.secret, (err, refreshed) => {
+                var auth = JSON.stringify(refreshed);
+                console.log(auth);
+                res.set("authorization", "JWT " + auth.substr(1, auth.length - 2));
+            });
+
             req.jwt_auth = jwt_data;
             next();
         });

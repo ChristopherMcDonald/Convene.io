@@ -19,6 +19,7 @@ class Home extends Component {
                 if(response.status === 401) {
                     window.location = "/";
                 } else {
+                    localStorage.setItem("JWT", response.headers.authorization);
                     self.setState({ user: response.data.user});
                 }
 
