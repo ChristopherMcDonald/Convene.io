@@ -9,7 +9,7 @@ var scrypt = require("scrypt");
 var scryptParameters = scrypt.paramsSync(0.1);
 var jwt = require('jsonwebtoken');
 
-var whitelist = ['http://localhost:3000']; // undefined added for newman runner
+var whitelist = ['http://localhost:3000', undefined]; // undefined added for newman runner
 var corsOptions = {
     origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1) {
