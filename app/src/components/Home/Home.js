@@ -14,7 +14,7 @@ class Home extends Component {
 
     componentWillMount() {
         var self = this;
-        axios.get('http://localhost:4000/users/me')
+        axios.get('http://localhost:4000/user')
           .then((response) => {
             self.setState({ user: response.data.user});
           })

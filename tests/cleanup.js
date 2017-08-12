@@ -1,2 +1,4 @@
-use convene;
-db.users.remove({email: "christophermcdonald@convene.io"});
+use conveneTest;
+db.users.drop();
+db.teams.drop();
+db.meetings.drop();
