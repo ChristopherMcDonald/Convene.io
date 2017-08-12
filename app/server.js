@@ -7,11 +7,7 @@ mongoose.Promise = global.Promise;
 var bodyParser = require('body-parser');
 var scrypt = require("scrypt");
 var scryptParameters = scrypt.paramsSync(0.1);
-var JWT = require('jwt-async'),
-jwt = new JWT({
-});
-// TODO test expiration stuff
-jwt.setSecret(config.secret);
+var jwt = require('jsonwebtoken');
 
 var whitelist = ['http://localhost:3000']; // undefined added for newman runner
 var corsOptions = {
@@ -33,8 +29,19 @@ app.use((req,res,next) => {
     if(req.headers['authorization'] &&
     req.headers['authorization'].startsWith('JWT')){
         var jwt_token = req.headers['authorization'].substr(4);
-        jwt.verify(jwt_token, (err, jwt_data) => {
-            if(err) throw err;
+        jwt.verify(jwt_token, config.secret, (err, jwt_data) => {
+            if(err && req.path !== '/user/login') {
+                if(err.name === "TokenExpiredError") {
+                    if(req.path !== '/user/login') {
+                        res.status(401).send({description: "expired token"});
+                        return;
+                    } else {
+                        next();
+                    }
+                } else {
+                    throw err;
+                }
+            }
             req.jwt_auth = jwt_data;
             next();
         });
@@ -55,7 +62,7 @@ app.use((req,res,next) => {
 });
 
 // get paths
-require(path.resolve( __dirname, 'routes/Users.js'))(app,jwt,scrypt);
+require(path.resolve( __dirname, 'routes/Users.js'))(app,jwt,scrypt,config);
 require(path.resolve( __dirname, 'routes/Meetings.js'))(app,jwt);
 require(path.resolve( __dirname, 'routes/Teams.js'))(app,jwt);
 
