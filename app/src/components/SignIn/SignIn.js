@@ -32,7 +32,7 @@ class SignIn extends Component {
         var self = this;
         if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
             // do request
-            axios.post('http://localhost:4000/users/login',
+            axios.post('http://localhost:4000/user/login',
                 { email: this.state.email, password: this.state.password},
                 { validateStatus: (status) => { return status < 500; }
             }).then((response) => {
@@ -86,7 +86,8 @@ class SignIn extends Component {
                             <input name="password" value={this.state.password} onChange={this.handleChange} type="password" className="form-control" id="password" placeholder="Super Secret..."></input>
                         </div>
                         <button type="submit" className="btn btn-primary top-btn">Sign In</button>
-                        <button type="button" className="btn btn-success" onClick={() => this.navTo('/signup')}>First time? Sign up!</button>
+                        <button type="button" className="btn btn-success" onClick={() => this.navTo('/teamSignUp')}>Make A Team</button>
+                        <button type="button" className="btn btn-success" onClick={() => this.navTo('/signup')}>Team already made? Sign up!</button>
                     </form>
                 </div>
                 <ConveneMessage type={this.state.conveneMessage.type} message={this.state.conveneMessage.message} active={this.state.conveneMessage.active}></ConveneMessage>

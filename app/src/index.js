@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Landing from './components/Landing/Landing';
 import SignUp from './components/SignUp/SignUp';
+import TeamSignUp from './components/TeamSignUp/TeamSignUp';
 import Home from './components/Home/Home';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
@@ -14,6 +15,7 @@ const Main = () => (
         <Switch>
             <Route exact path='/' component={Landing}/>
             <Route exact path='/signup' component={SignUp}/>
+            <Route exact path='/teamSignup' component={TeamSignUp}/>
             <Route exact path='/home' component={Home}/>
         </Switch>
     </main>

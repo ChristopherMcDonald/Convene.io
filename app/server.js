@@ -60,6 +60,7 @@ require(path.resolve( __dirname, 'routes/Meetings.js'))(app,jwt);
 require(path.resolve( __dirname, 'routes/Teams.js'))(app,jwt);
 
 // set mongoose connection
+var db = 'mongodb://localhost:27017/' + config.db[process.argv[2]];
 mongoose.connect('mongodb://localhost:27017/convene', {
     useMongoClient: true,
     /* other options */
