@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ConveneMessage from '../ConveneMessage/ConveneMessage';
 import './SignIn.css';
 
 class SignIn extends Component {
@@ -8,7 +9,12 @@ class SignIn extends Component {
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            conveneMessage: {
+                type: '',
+                message: '',
+                active: 'message-inactive'
+            }
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,29 +29,47 @@ class SignIn extends Component {
     }
 
     handleSubmit(event) {
+        var self = this;
         if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
             // do request
-            axios.post('http://localhost:4000/users/login', {email: this.state.email, password: this.state.password})
-              .then(function (response) {
-                console.log(response);
+            axios.post('http://localhost:4000/user/login',
+                { email: this.state.email, password: this.state.password},
+                { validateStatus: (status) => { return status < 500; }
+            }).then((response) => {
                 if(response.data.res === 'valid') {
                     localStorage.setItem('JWT', response.data.token);
                     window.location = '/home';
                 } else {
-                    // TODO show user error
+                    self.showMessage('danger', 'Invalid username or password');
                 }
               })
-              .catch(function (error) {
+              .catch((error) => {
+                self.showMessage('danger', 'Something terrible has happened, please try again later.');
                 console.log(error);
               });
         } else {
-            // TODO show user error
+            self.showMessage('danger', 'That email doesn\'t look valid, please try again.');
         }
         event.preventDefault();
     }
 
     navTo(link) {
         window.location = link;
+    }
+
+    showMessage(type, message) {
+        var self = this;
+        self.setState({ conveneMessage: {
+            type: type,
+            message: message,
+            active: 'message-active'
+            }
+        });
+        setTimeout(() => {
+            self.setState({ conveneMessage:
+                { active: 'message-inactive'}
+            }
+        )}, 3000);
     }
 
     render() {
@@ -62,9 +86,11 @@ class SignIn extends Component {
                             <input name="password" value={this.state.password} onChange={this.handleChange} type="password" className="form-control" id="password" placeholder="Super Secret..."></input>
                         </div>
                         <button type="submit" className="btn btn-primary top-btn">Sign In</button>
-                        <button type="button" className="btn btn-success" onClick={() => this.navTo('/signup')}>First time? Sign up!</button>
+                        <button type="button" className="btn btn-success" onClick={() => this.navTo('/teamSignUp')}>Make A Team</button>
+                        <button type="button" className="btn btn-success" onClick={() => this.navTo('/signup')}>Team already made? Sign up!</button>
                     </form>
                 </div>
+                <ConveneMessage type={this.state.conveneMessage.type} message={this.state.conveneMessage.message} active={this.state.conveneMessage.active}></ConveneMessage>
             </div>
         );
     }

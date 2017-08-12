@@ -1,0 +1,801 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Convene.io - All",
+		"_postman_id": "7887b698-c196-5a73-0712-cecfd7fd2cd0",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:4000/team",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 201) {",
+							"    tests[\"201 response from users/create\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response has an id\"] = (body.team !== undefined);",
+							"    tests[\"response has correct invited members\"] = (body.team.invitedMembers[0] !== \"mikeroos@convene.io\");",
+							"} else {",
+							"    tests[\"201 response from /teams\"] = false;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"teamid\", body.team._id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/team",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"convene\",\n\t\"email\": [\"mikeross@convene.io\"]\n}"
+				},
+				"description": "Making a team!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/create\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response has an id\"] = (body.id !== undefined);",
+							"    tests[\"response id is not empty\"] = (body.id !== \"\");",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": {\n\t\t\"first\": \"Mike\",\n\t\t\"last\": \"Ross\"\n\t},\n\t\"email\": \"mikeross@convene.io\",\n\t\"alias\": \"MikeR\",\n\t\"team\": \"{{teamid}}\",\n\t\"password\": \"Password123!!!\",\n\t\"confPassword\": \"Password123!!!\"\n}"
+				},
+				"description": "Creating a User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/login\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a token\"] = (body.token !== undefined);",
+							"    tests[\"token has correct format\"] = (body.token.startsWith('JWT '));",
+							"    ",
+							"    postman.setEnvironmentVariable(\"jwt\", body.token);",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mikeross@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
+				},
+				"description": "Get Newly Made User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/me\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a user\"] = (body.user !== undefined);",
+							"    tests[\"user has the right information\"] = ",
+							"            (body.user.alias === \"MikeR\" ",
+							"            && body.user.email === \"mikeross@convene.io\");",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Getting the current user"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user - w/o JWT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 401) {",
+							"    tests[\"401 response from users/me (expected)\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"invalid\");",
+							"    tests[\"response has no user\"] = (body.user === undefined);",
+							"    tests[\"response has the wrong reason\"] = (body.reason === \"bad authorization\");",
+							"} else {",
+							"    tests[\"401 response from users/me (expected)\"] = false;",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"jwt\", undefined);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Post logout attempt at users/me"
+			},
+			"response": []
+		},
+        {
+			"name": "localhost:4000/user/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/login\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a token\"] = (body.token !== undefined);",
+							"    tests[\"token has correct format\"] = (body.token.startsWith('JWT '));",
+							"    ",
+							"    postman.setEnvironmentVariable(\"jwt\", body.token);",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mikeross@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
+				},
+				"description": "Get Newly Made User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/team/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 201) {",
+							"    tests[\"201 response from team/invite\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid team name\"] = (body.team.name === \"convene\");",
+							"    tests[\"response has added two members to the meeting\"] = (body.team.invitedMembers.includes('harv@convene.io') && body.team.invitedMembers.includes('litt@convene.io'));",
+							"} else {",
+							"    tests[\"201 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/team/invite",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": [\"harv@convene.io\", \"litt@convene.io\"]\n}"
+				},
+				"description": "Invite people to the team!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/team/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from team/invite\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid team name\"] = (body.team.name === \"convene\");",
+							"    tests[\"response has deleted litt\"] =  body.team.invitedMembers.includes('litt@convene.io') == false;",
+							"    tests[\"response had kept harv\"] = body.team.invitedMembers.includes('harv@convene.io') == true;",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/team/invite",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"litt@convene.io\"\n}"
+				},
+				"description": "Invite people to the team!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log(\"{{teamid}}\");",
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/create\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response has an id\"] = (body.id !== undefined);",
+							"    tests[\"response id is not empty\"] = (body.id !== \"\");",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": {\n\t\t\"first\": \"Harv\",\n\t\t\"last\": \"Specter\"\n\t},\n\t\"email\": \"harv@convene.io\",\n\t\"alias\": \"Harv\",\n\t\"team\": \"{{teamid}}\",\n\t\"password\": \"Password123!!!\",\n\t\"confPassword\": \"Password123!!!\"\n}"
+				},
+				"description": "Creating a User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user - denied",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 422) {",
+							"    tests[\"422 response from users\"] = true;",
+							"    ",
+							"    tests[\"invited member list warning\"] = (responseBody) === \"You are not in your teams invited list of members.\";",
+							"} else {",
+							"    tests[\"422 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": {\n\t\t\"first\": \"Louis\",\n\t\t\"last\": \"Litt\"\n\t},\n\t\"email\": \"litt@convene.io\",\n\t\"alias\": \"LittUp\",\n\t\"team\": \"{{teamid}}\",\n\t\"password\": \"Password123!!!\",\n\t\"confPassword\": \"Password123!!!\"\n}"
+				},
+				"description": "Creating a User"
+			},
+			"response": []
+		},
+        {
+			"name": "localhost:4000/user/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/login\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a token\"] = (body.token !== undefined);",
+							"    tests[\"token has correct format\"] = (body.token.startsWith('JWT '));",
+							"    ",
+							"    postman.setEnvironmentVariable(\"jwt\", body.token);",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mikeross@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
+				},
+				"description": "Get Newly Made User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && body.meeting.invitedMembers.includes('harv@convene.io'));",
+							"",
+							"postman.setEnvironmentVariable(\"meetingId\", body.meeting._id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sprint Review\",\n\t\"emails\": [\"harv@convene.io\", \"mikeross@convene.io\"],\n\t\"eventDate\": \"2017-08-15T10:40:46.928Z\",\n\t\"description\": \"We will review the last sprint\"\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/{{id}}/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && !body.meeting.invitedMembers.includes('harv@convene.io'));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/invite",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emails\": [\"harv@convene.io\"]\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/{{id}}/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && body.meeting.invitedMembers.includes('harv@convene.io') && body.meeting.invitedMembers.includes('litt@convene.io'));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/invite",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emails\": [\"harv@convene.io\", \"litt@convene.io\"]\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/{{id}}/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.length === 1) && (body.meeting.invitedMembers[0] === \"harv@convene.io\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/invite",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emails\": [\"mikeross@convene.io\", \"litt@convene.io\"]\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"200 response code from /meeting\"] = responseCode.code === 200;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"body.meeting.descr",
+							"",
+							"tests[\"description was updated\"] = (body.meeting.description === \"We will review the last sprint, and plannn!!!!!!\")",
+							"tests[\"event date was updated\"] = (body.meeting.eventDate === \"2017-08-20T10:40:46.928Z\")",
+							"tests[\"name was updated\"] = (body.meeting.name === \"Sprint Review - Revised\")"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sprint Review - Revised\",\n\t\"eventDate\": \"2017-08-20T10:40:46.928Z\",\n\t\"description\": \"We will review the last sprint, and plannn!!!!!!\"\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/close",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"200 response code from /meeting\"] = responseCode.code === 200;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"tests[\"meetings was closed\"] = (body.meeting.closed)"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/close",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		}
+	]
+}

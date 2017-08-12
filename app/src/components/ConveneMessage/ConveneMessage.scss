@@ -1,0 +1,33 @@
+@import "../../styles/base";
+
+.ConveneMessage {
+    position: fixed;
+    width: 60%;
+
+    p {
+        font-family: 'Open Sans';
+        word-wrap: break-word;
+    }
+}
+
+@keyframes drop {
+    from {top: -40vh;}
+    to {top: 10px;}
+}
+
+@keyframes raise {
+    from {top: 10px;}
+    to {top: -40vh;}
+}
+
+.message-active {
+    top: 10px;
+    animation-name: drop;
+    animation-duration: 1s;
+}
+
+.message-inactive {
+    top: -40vh;
+    animation-name: raise;
+    animation-duration: 5s;
+}
