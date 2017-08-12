@@ -18,7 +18,7 @@ module.exports = function(app,jwt,scrypt) {
     });
 
     app.post("/user", (req, res) => {
-        
+
         if(! /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(req.body.email)) {
             res.status(422).send("That email doesn't look right, ensure it is spelt correctly.");
             return;
@@ -43,12 +43,14 @@ module.exports = function(app,jwt,scrypt) {
             res.status(422).send(message.substr(0, message.length - 2) + "]");
             return;
         }
-
+        console.log(req.body.team);
         Teams.findOne({_id: req.body.team}).then(team => {
             if(!team) {
                 res.status(404).send({description: "Not Found"});
                 return;
             }
+
+            console.log(team.invitedMembers);
 
             if(!team.invitedMembers.includes(req.body.email)) {
                 res.status(422).send("You are not in your teams invited list of members.");

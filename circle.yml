@@ -11,11 +11,11 @@ dependencies:
     - cd app/ && npm config set registry http://registry.npmjs.org/
     - cd app/ && npm install
     - cd app/ && npm install -g newman
+    - cd app/ npm run test-server
 
 ## Customize test commands
 test:
   override:
     - cd app/ && gulp styles && npm test
     - ./tests/cleanup.sh
-    - cd app/ && npm run server &
-    - sleep 5 && newman run Users.postman_collection
+    - cd app/ && newman run Convene.io\ -\ All.postman_collection
