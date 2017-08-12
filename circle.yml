@@ -17,5 +17,5 @@ dependencies:
 test:
   override:
     - cd app/ && gulp styles && npm test
-    - ./tests/cleanup.sh
-    - cd app/ && newman run Convene.io\ -\ All.postman_collection
+    - cd tests/ && ./cleanup.sh
+    - cd tests/ && newman run Convene.io\ -\ All.postman_collection
