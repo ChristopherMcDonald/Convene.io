@@ -1,8 +1,6 @@
 # whitelist which branches to listen to
 general:
-  branches:
-    only:
-      - develop
+  branches: [/feature_.*/, develop]
 
 ## Customize dependencies
 dependencies:
@@ -16,6 +14,5 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - cd app/ && gulp styles && npm test
     - cd tests/ && ./cleanup.sh
     - cd tests/ && newman run Convene.io\ -\ All.postman_collection
