@@ -1,14 +1,60 @@
 {
 	"variables": [],
 	"info": {
-		"name": "Convene.io - Users",
-		"_postman_id": "d3f92dbc-8758-3b90-aeca-1d225cb22bec",
+		"name": "Convene.io - 1. Make A Team + User + JWT",
+		"_postman_id": "0843e03d-30db-f58a-7168-ed951d7a077f",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "localhost:4000/users/create",
+			"name": "localhost:4000/team",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 201) {",
+							"    tests[\"201 response from users/create\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response has an id\"] = (body.team !== undefined);",
+							"    tests[\"response has correct invited members\"] = (body.team.invitedMembers[0] !== \"mikeroos@convene.io\");",
+							"} else {",
+							"    tests[\"201 response from /teams\"] = false;",
+							"}",
+							"",
+							"postman.setEnvironmentVariable(\"teamid\", body.team._id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/team",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"convene\",\n\t\"email\": [\"mikeross@convene.io\"]\n}"
+				},
+				"description": "Making a team!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/user",
 			"event": [
 				{
 					"listen": "test",
@@ -21,31 +67,38 @@
 							"    var body = JSON.parse(responseBody);",
 							"    tests[\"response has an id\"] = (body.id !== undefined);",
 							"    tests[\"response id is not empty\"] = (body.id !== \"\");",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
 							"}"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "localhost:4000/users/create",
+				"url": "localhost:4000/user",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"value": "application/json",
 						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": {\n\t\t\"first\": \"Christopher(Test)\",\n\t\t\"last\": \"McDonald\"\n\t},\n\t\"email\": \"christophermcdonald@convene.io\",\n\t\"alias\": \"Chris\",\n\t\"team\": \"convene\",\n\t\"password\": \"Password123!!!\"\n}"
+					"raw": "{\n\t\"name\": {\n\t\t\"first\": \"Mike\",\n\t\t\"last\": \"Ross\"\n\t},\n\t\"email\": \"mikeross@convene.io\",\n\t\"alias\": \"MikeR\",\n\t\"team\": \"{{teamid}}\",\n\t\"password\": \"Password123!!!\",\n\t\"confPassword\": \"Password123!!!\"\n}"
 				},
 				"description": "Creating a User"
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:4000/users/login",
+			"name": "localhost:4000/user/login",
 			"event": [
 				{
 					"listen": "test",
@@ -61,31 +114,38 @@
 							"    tests[\"token has correct format\"] = (body.token.startsWith('JWT '));",
 							"    ",
 							"    postman.setEnvironmentVariable(\"jwt\", body.token);",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
 							"}"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "localhost:4000/users/login",
+				"url": "localhost:4000/user/login",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"value": "application/json",
 						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"christophermcdonald@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
+					"raw": "{\n\t\"email\": \"mikeross@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
 				},
 				"description": "Get Newly Made User"
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:4000/users/me",
+			"name": "localhost:4000/user",
 			"event": [
 				{
 					"listen": "test",
@@ -99,21 +159,27 @@
 							"    tests[\"response is valid\"] = (body.res === \"valid\");",
 							"    tests[\"response has a user\"] = (body.user !== undefined);",
 							"    tests[\"user has the right information\"] = ",
-							"            (body.user.alias === \"Chris\" ",
-							"            && body.user.email === \"christophermcdonald@convene.io\" ",
-							"            && body.user.team === \"convene\");",
+							"            (body.user.alias === \"MikeR\" ",
+							"            && body.user.email === \"mikeross@convene.io\");",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
 							"}"
 						]
 					}
 				}
 			],
 			"request": {
-				"url": "localhost:4000/users/me",
+				"url": "localhost:4000/user",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
 						"value": "{{jwt}}",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
 						"description": ""
 					}
 				],
@@ -123,7 +189,7 @@
 			"response": []
 		},
 		{
-			"name": "localhost:4000/users/me",
+			"name": "localhost:4000/user - w/o JWT",
 			"event": [
 				{
 					"listen": "test",
@@ -136,7 +202,7 @@
 							"    var body = JSON.parse(responseBody);",
 							"    tests[\"response is valid\"] = (body.res === \"invalid\");",
 							"    tests[\"response has no user\"] = (body.user === undefined);",
-							"    tests[\"user has the right information\"] = (body.action === \"redirect to login\");",
+							"    tests[\"response has the wrong reason\"] = (body.reason === \"bad authorization\");",
 							"} else {",
 							"    tests[\"401 response from users/me (expected)\"] = false;",
 							"}"
@@ -155,12 +221,17 @@
 				}
 			],
 			"request": {
-				"url": "localhost:4000/users/me",
+				"url": "localhost:4000/user",
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
 						"value": "{{jwt}}",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
 						"description": ""
 					}
 				],

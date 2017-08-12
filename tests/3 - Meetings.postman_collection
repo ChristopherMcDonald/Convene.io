@@ -1,0 +1,330 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Convene.io - 3. Make and Change a Meeting",
+		"_postman_id": "31d17e93-422d-c764-4c38-fde6b5fbbb4c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:4000/user/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (responseCode.code === 200) {",
+							"    tests[\"200 response from users/login\"] = true;",
+							"    ",
+							"    var body = JSON.parse(responseBody);",
+							"    tests[\"response is valid\"] = (body.res === \"valid\");",
+							"    tests[\"response has a token\"] = (body.token !== undefined);",
+							"    tests[\"token has correct format\"] = (body.token.startsWith('JWT '));",
+							"    ",
+							"    postman.setEnvironmentVariable(\"jwt\", body.token);",
+							"} else {",
+							"    tests[\"200 response\"] = false;",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/user/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"mikeross@convene.io\",\n\t\"password\": \"Password123!!!\"\n}"
+				},
+				"description": "Get Newly Made User"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && body.meeting.invitedMembers.includes('harv@convene.io'));",
+							"",
+							"postman.setEnvironmentVariable(\"meetingId\", body.meeting._id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sprint Review\",\n\t\"emails\": [\"harv@convene.io\", \"mikeross@convene.io\"],\n\t\"eventDate\": \"2017-08-15T10:40:46.928Z\",\n\t\"description\": \"We will review the last sprint\"\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/{{id}}/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && !body.meeting.invitedMembers.includes('harv@convene.io'));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/invite",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emails\": [\"harv@convene.io\"]\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/{{id}}/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && body.meeting.invitedMembers.includes('harv@convene.io') && body.meeting.invitedMembers.includes('litt@convene.io'));"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/invite",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emails\": [\"harv@convene.io\", \"litt@convene.io\"]\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/{{id}}/invite",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.length === 1) && (body.meeting.invitedMembers[0] === \"harv@convene.io\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/invite",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"emails\": [\"mikeross@convene.io\", \"litt@convene.io\"]\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"200 response code from /meeting\"] = responseCode.code === 200;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"body.meeting.descr",
+							"",
+							"tests[\"description was updated\"] = (body.meeting.description === \"We will review the last sprint, and plannn!!!!!!\")",
+							"tests[\"event date was updated\"] = (body.meeting.eventDate === \"2017-08-20T10:40:46.928Z\")",
+							"tests[\"name was updated\"] = (body.meeting.name === \"Sprint Review - Revised\")"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Sprint Review - Revised\",\n\t\"eventDate\": \"2017-08-20T10:40:46.928Z\",\n\t\"description\": \"We will review the last sprint, and plannn!!!!!!\"\n}"
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:4000/meeting/close",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"200 response code from /meeting\"] = responseCode.code === 200;",
+							"",
+							"var body = JSON.parse(responseBody);",
+							"",
+							"tests[\"meetings was closed\"] = (body.meeting.closed)"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "localhost:4000/meeting/{{meetingId}}/close",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Origin",
+						"value": "http://localhost:3000",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{jwt}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Make a meeting!"
+			},
+			"response": []
+		}
+	]
+}
