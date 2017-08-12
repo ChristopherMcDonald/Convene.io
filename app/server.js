@@ -11,14 +11,14 @@ var jwt = require('jsonwebtoken');
 
 var whitelist = ['http://localhost:3000']; // undefined added for newman runner
 var corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-  }
-},
-exposedHeaders: ['authorization']
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    exposedHeaders: ['authorization']
 };
 var app = express();
 app.use(bodyParser.json());
@@ -58,16 +58,16 @@ app.use((req,res,next) => {
             next();
         });
     } else
-        next();
+    next();
 });
 
 // middleware to bounce request if anything but login/create or already auth'd
 app.use((req,res,next) => {
     if( req.path === '/user/login' ||
-        req.jwt_auth ||
-        (req.path === '/team' && req.method === 'POST') ||
-        (req.path === '/user' && req.method === 'POST'))
-        next();
+    req.jwt_auth ||
+    (req.path === '/team' && req.method === 'POST') ||
+    (req.path === '/user' && req.method === 'POST'))
+    next();
     else {
         res.status(401).send({res: "invalid", reason: "bad authorization"});
     }
