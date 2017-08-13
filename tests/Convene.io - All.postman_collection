@@ -300,7 +300,7 @@
 							"    ",
 							"    var body = JSON.parse(responseBody);",
 							"    tests[\"response is valid team name\"] = (body.team.name === \"convene\");",
-							"    tests[\"response has added two members to the meeting\"] = (body.team.invitedMembers.includes('harv@convene.io') && body.team.invitedMembers.includes('litt@convene.io'));",
+							"    tests[\"response has added two members to the meeting\"] = (_.includes(body.team.invitedMembers, 'harv@convene.io') && _.includes(body.team.invitedMembers, 'litt@convene.io'));",
 							"} else {",
 							"    tests[\"201 response\"] = false;",
 							"}"
@@ -349,8 +349,8 @@
 							"    ",
 							"    var body = JSON.parse(responseBody);",
 							"    tests[\"response is valid team name\"] = (body.team.name === \"convene\");",
-							"    tests[\"response has deleted litt\"] =  body.team.invitedMembers.includes('litt@convene.io') == false;",
-							"    tests[\"response had kept harv\"] = body.team.invitedMembers.includes('harv@convene.io') == true;",
+							"    tests[\"response has deleted litt\"] =  _.includes(body.team.invitedMembers, 'litt@convene.io') == false;",
+							"    tests[\"response had kept harv\"] = _.includes(body.team.invitedMembers, 'harv@convene.io') == true;",
 							"} else {",
 							"    tests[\"200 response\"] = false;",
 							"}"
@@ -536,7 +536,7 @@
 							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
 							"",
 							"var body = JSON.parse(responseBody);",
-							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && body.meeting.invitedMembers.includes('harv@convene.io'));",
+							"tests[\"invited members contain the correct list\"] = (_.includes(body.meeting.invitedMembers, 'mikeross@convene.io') && _.includes(body.meeting.invitedMembers, 'harv@convene.io'));",
 							"",
 							"postman.setEnvironmentVariable(\"meetingId\", body.meeting._id);"
 						]
@@ -582,7 +582,7 @@
 							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
 							"",
 							"var body = JSON.parse(responseBody);",
-							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && !body.meeting.invitedMembers.includes('harv@convene.io'));"
+							"tests[\"invited members contain the correct list\"] = (_.includes(body.meeting.invitedMembers, 'mikeross@convene.io') && !_.includes(body.meeting.invitedMembers, 'harv@convene.io'));"
 						]
 					}
 				}
@@ -626,7 +626,7 @@
 							"tests[\"201 response code from /meeting\"] = responseCode.code === 201;",
 							"",
 							"var body = JSON.parse(responseBody);",
-							"tests[\"invited members contain the correct list\"] = (body.meeting.invitedMembers.includes('mikeross@convene.io') && body.meeting.invitedMembers.includes('harv@convene.io') && body.meeting.invitedMembers.includes('litt@convene.io'));"
+							"tests[\"invited members contain the correct list\"] = (_.includes(body.meeting.invitedMembers, 'mikeross@convene.io') && _.includes(body.meeting.invitedMembers, 'harv@convene.io') && _.includes(body.meeting.invitedMembers, 'litt@convene.io'));"
 						]
 					}
 				}
