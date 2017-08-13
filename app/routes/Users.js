@@ -1,11 +1,11 @@
-module.exports = function(app,jwt,scrypt) {
+module.exports = function(app,jwt,scrypt, config) {
     var path = require('path');
     var Users = require('../schemas/Users.js');
     var Teams = require(path.resolve( __dirname, '../schemas/Teams.js'));
     var scryptParameters = scrypt.paramsSync(0.1);
 
     app.get('/user', (req, res) => {
-        Users.findOne({_id: req.jwt_auth.claims.user}, 'email alias team').then((user) => {
+        Users.findOne({_id: req.jwt_auth.user}, 'email alias team').then((user) => {
             if(user) {
                 // look up team name
                 res.status(200).send({res: "valid", user: user});
@@ -93,7 +93,7 @@ module.exports = function(app,jwt,scrypt) {
     app.post("/user/login", (req, res) => {
         Users.findOne({email: req.body.email}).then(user => {
             if(user && scrypt.verifyKdfSync(user.password, req.body.password)) {
-                jwt.sign({user: user.id, team: user.team},(err, data) => {
+                jwt.sign({user: user.id, team: user.team}, config.secret, { expiresIn: '1h' }, (err, data) => {
                     // the token must be added in the header as 'Authorization'
                     res.status(200).json({res: "valid", token: 'JWT ' + data});
                 });

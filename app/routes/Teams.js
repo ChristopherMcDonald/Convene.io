@@ -7,7 +7,7 @@ module.exports = function(app) {
     // get my team, make a team, change team name, add invited and delete invited
 
     app.get('/team', (req, res) => {
-        Teams.findOne({_id: req.jwt_auth.claims.team}).then(team => {
+        Teams.findOne({_id: req.jwt_auth.team}).then(team => {
             if(team) res.status(200).send({team: team});
             else res.status(404).send({description: "Not Found"});
         }).catch((err) => {
@@ -46,7 +46,7 @@ module.exports = function(app) {
     });
 
     app.put('/team', (req, res) => {
-        Teams.findByIdAndUpdate(req.jwt_auth.claims.team, {name: req.body.name}).then(team => {
+        Teams.findByIdAndUpdate(req.jwt_auth.team, {name: req.body.name}).then(team => {
             if(team) res.status(200).send({team: team});
             else res.status(404).send({description: "Not Found"});
         }).catch(err => {
@@ -56,7 +56,7 @@ module.exports = function(app) {
     });
 
     app.put('/team/invite', (req, res) => {
-        Teams.findOne({_id: req.jwt_auth.claims.team}).then(team => {
+        Teams.findOne({_id: req.jwt_auth.team}).then(team => {
             if(team) {
                 team.invitedMembers = [...team.invitedMembers, ...req.body.email]; // works for [String]
                 team.save().then(team => {
@@ -74,7 +74,7 @@ module.exports = function(app) {
     });
 
     app.delete('/team/invite', (req, res) => {
-        Teams.findOne({_id: req.jwt_auth.claims.team}).then(team => {
+        Teams.findOne({_id: req.jwt_auth.team}).then(team => {
             if(team) {
                 team.invitedMembers = team.invitedMembers.filter((email) => email !== req.body.email);
                 team.save().then(team => {

@@ -14,14 +14,19 @@ class Home extends Component {
 
     componentWillMount() {
         var self = this;
-        axios.get('http://localhost:4000/user')
-          .then((response) => {
-            self.setState({ user: response.data.user});
-          })
-          .catch((error) => {
-            console.log(error);
-            // window.location = '/';
-          });
+        axios.get('http://localhost:4000/user', { validateStatus: (status) => { return status < 500; }})
+            .then((response) => {
+                if(response.status === 401) {
+                    window.location = "/";
+                } else {
+                    localStorage.setItem("JWT", response.headers.authorization);
+                    self.setState({ user: response.data.user});
+                }
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     render() {
