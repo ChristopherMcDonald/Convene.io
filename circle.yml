@@ -1,8 +1,6 @@
 # whitelist which branches to listen to
 general:
-  branches:
-    only:
-      - develop
+  branches: [/feature.*/, develop]
 
 ## Customize dependencies
 dependencies:
@@ -11,11 +9,11 @@ dependencies:
     - cd app/ && npm config set registry http://registry.npmjs.org/
     - cd app/ && npm install
     - cd app/ && npm install -g newman
-    - cd app/ npm run test-server
 
 ## Customize test commands
 test:
+  pre:
+    - cd app/ node server.js test
   override:
-    - cd app/ && gulp styles && npm test
     - cd tests/ && ./cleanup.sh
     - cd tests/ && newman run Convene.io\ -\ All.postman_collection

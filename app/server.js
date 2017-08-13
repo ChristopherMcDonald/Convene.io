@@ -7,21 +7,18 @@ mongoose.Promise = global.Promise;
 var bodyParser = require('body-parser');
 var scrypt = require("scrypt");
 var scryptParameters = scrypt.paramsSync(0.1);
-var JWT = require('jwt-async'),
-jwt = new JWT({
-});
-// TODO test expiration stuff
-jwt.setSecret(config.secret);
+var jwt = require('jsonwebtoken');
 
-var whitelist = ['http://localhost:3000']; // undefined added for newman runner
+var whitelist = ['http://localhost:3000', undefined]; // undefined added for newman runner
 var corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
+    exposedHeaders: ['authorization']
 };
 var app = express();
 app.use(bodyParser.json());
@@ -33,29 +30,51 @@ app.use((req,res,next) => {
     if(req.headers['authorization'] &&
     req.headers['authorization'].startsWith('JWT')){
         var jwt_token = req.headers['authorization'].substr(4);
-        jwt.verify(jwt_token, (err, jwt_data) => {
-            if(err) throw err;
+        jwt.verify(jwt_token, config.secret, (err, jwt_data) => {
+            if(err && req.path !== '/user/login') {
+                if(err.name === "TokenExpiredError") {
+                    if(req.path !== '/user/login') {
+                        res.status(401).send({description: "expired token"});
+                        return;
+                    } else {
+                        next();
+                    }
+                } else {
+                    throw err;
+                }
+            }
+
+            var now = new Date() / 1000;
+            if( (now - 15*60) < jwt_data) {
+                jwt_data.exp = jwt_data.exp + (60 * 60);
+            }
+            jwt.sign(jwt_data, config.secret, (err, refreshed) => {
+                var auth = JSON.stringify(refreshed);
+                console.log(auth);
+                res.set("authorization", "JWT " + auth.substr(1, auth.length - 2));
+            });
+
             req.jwt_auth = jwt_data;
             next();
         });
     } else
-        next();
+    next();
 });
 
 // middleware to bounce request if anything but login/create or already auth'd
 app.use((req,res,next) => {
     if( req.path === '/user/login' ||
-        req.jwt_auth ||
-        (req.path === '/team' && req.method === 'POST') ||
-        (req.path === '/user' && req.method === 'POST'))
-        next();
+    req.jwt_auth ||
+    (req.path === '/team' && req.method === 'POST') ||
+    (req.path === '/user' && req.method === 'POST'))
+    next();
     else {
         res.status(401).send({res: "invalid", reason: "bad authorization"});
     }
 });
 
 // get paths
-require(path.resolve( __dirname, 'routes/Users.js'))(app,jwt,scrypt);
+require(path.resolve( __dirname, 'routes/Users.js'))(app,jwt,scrypt,config);
 require(path.resolve( __dirname, 'routes/Meetings.js'))(app,jwt);
 require(path.resolve( __dirname, 'routes/Teams.js'))(app,jwt);
 

@@ -4,7 +4,7 @@ module.exports = function(app, jwt) {
     var Teams = require(path.resolve(__dirname, '../schemas/Teams'));
 
     app.get('/meeting/:meetingId', (req, res) => {
-        Meetings.findOne({team: req.jwt_auth.claims.team, _id: req.params.meetingId}).then(meeting => {
+        Meetings.findOne({team: req.jwt_auth.team, _id: req.params.meetingId}).then(meeting => {
             if(meeting) res.status(200).send({meeting: meeting});
             else res.status(404).send({description: "Not Found"});
         }).catch(err => {
@@ -14,7 +14,7 @@ module.exports = function(app, jwt) {
     });
 
     app.get('/meeting', (req, res) => {
-        Meetings.find({team: req.jwt_auth.claims.team}).then(meetings => {
+        Meetings.find({team: req.jwt_auth.team}).then(meetings => {
             if(meetings) res.status(200).send({meetings: meetings});
             else res.status(404).send({description: "Not Found"});
         }).catch(err => {
@@ -24,7 +24,7 @@ module.exports = function(app, jwt) {
     });
 
     app.post('/meeting', (req, res) => {
-        Teams.findOne({_id: req.jwt_auth.claims.team}).then(team => {
+        Teams.findOne({_id: req.jwt_auth.team}).then(team => {
             if(!team) {
                 res.status(404).send({description: "Not Found"});
             } else {
@@ -69,7 +69,7 @@ module.exports = function(app, jwt) {
     });
 
     app.put('/meeting/:meetingId', (req, res) => {
-        Meetings.findOneAndUpdate({team: req.jwt_auth.claims.team, _id: req.params.meetingId}, {
+        Meetings.findOneAndUpdate({team: req.jwt_auth.team, _id: req.params.meetingId}, {
             name: req.body.name,
             eventDate: req.body.eventDate,
             description: req.body.description,
@@ -121,7 +121,7 @@ module.exports = function(app, jwt) {
     });
 
     app.put('/meeting/:meetingId/close', (req, res) => {
-        Meetings.findOneAndUpdate({team: req.jwt_auth.claims.team, _id: req.params.meetingId}, {
+        Meetings.findOneAndUpdate({team: req.jwt_auth.team, _id: req.params.meetingId}, {
             closed: true
         }, {new: true}).then(meeting => {
             res.status(200).send({meeting: meeting});
@@ -132,7 +132,7 @@ module.exports = function(app, jwt) {
     });
 
     app.put('/meeting/:meetingId/open', (req, res) => {
-        Meetings.findOneAndUpdate({team: req.jwt_auth.claims.team, _id: req.params.meetingId}, {
+        Meetings.findOneAndUpdate({team: req.jwt_auth.team, _id: req.params.meetingId}, {
             closed: false
         }, {new: true}).then(meeting => {
             res.status(200).send({meeting: meeting});
