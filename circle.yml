@@ -13,7 +13,7 @@ dependencies:
 ## Customize test commands
 test:
   pre:
-    - cd app/ npm run test-server
+    - cd app/ node server.js test
   override:
     - cd tests/ && ./cleanup.sh
     - cd tests/ && newman run Convene.io\ -\ All.postman_collection
