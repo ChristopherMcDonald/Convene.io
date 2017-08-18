@@ -35,24 +35,21 @@ app.use((req,res,next) => {
     } else if(req.headers['authorization'] && req.headers['authorization'].startsWith('JWT')) {
         var jwt_token = req.headers['authorization'].substr(4);
         jwt.verify(jwt_token, config.secret, (err, jwt_data) => {
-            console.log(err);
             if(err && err.name === 'TokenExpiredError') {
+                console.log('expired token');
                 res.status(401).send({description: 'expired token'});
             } else if(err) {
                 // unhandled error
+                console.log(err);
                 res.status(500).send({description: 'internal error'});
             } else {
                 // no error
                 var now = new Date() / 1000;
                 // if expires in 15 minutes, add an hour
-                if(now > (jwt_data.exp - 15*60)) {
+                if(now > (jwt_data.exp - 15*60))
                     jwt_data.exp = jwt_data.exp + (60 * 60);
-                    console.log("JWT expiry incremented");
-                }
-                console.log("jwt_data: " + jwt_data);
                 jwt.sign(jwt_data, config.secret, (err, refreshed) => {
                     var auth = JSON.stringify(refreshed);
-                    console.log("new auth: " + auth);
                     res.set("Authorization", "JWT " + auth.substr(1, auth.length - 2));
                 });
                 req.jwt_auth = jwt_data;
