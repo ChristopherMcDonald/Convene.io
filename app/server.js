@@ -12,6 +12,7 @@ var jwt = require('jsonwebtoken');
 var whitelist = ['http://localhost:3000', undefined]; // undefined added for newman runner
 var corsOptions = {
     origin: (origin, callback) => {
+        console.log(origin);
         if (whitelist.indexOf(origin) !== -1) {
             callback(null, true)
         } else {

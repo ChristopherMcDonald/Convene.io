@@ -52,7 +52,14 @@ module.exports = function(app,jwt,scrypt, config) {
 
             console.log(team.invitedMembers);
 
-            if(!team.invitedMembers.includes(req.body.email)) {
+            var inlist = false;
+            team.invitedMembers.forEach(member => {
+                if (req.body.email === member) {
+                    inlist = true;
+                }
+            });
+
+            if(!inlist) {
                 res.status(422).send("You are not in your teams invited list of members.");
                 return;
             }

@@ -5,15 +5,14 @@ general:
 ## Customize dependencies
 dependencies:
   pre:
-    - cd app/ && npm install -g gulp
     - cd app/ && npm config set registry http://registry.npmjs.org/
-    - cd app/ && npm install
+    - cd app/ && npm install -g gulp
     - cd app/ && npm install -g newman
+    - cd app/ && npm install
 
 ## Customize test commands
 test:
-  pre:
-    - cd app/ node server.js test
   override:
+    - cd app/ && node server.js test
     - cd tests/ && ./cleanup.sh
     - cd tests/ && newman run Convene.io\ -\ All.postman_collection
