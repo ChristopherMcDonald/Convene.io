@@ -69,8 +69,7 @@ require(path.resolve( __dirname, 'routes/Teams.js'))(app,jwt);
 // set mongoose connection
 var db = 'mongodb://localhost:27017/' + config.db[process.argv[2]];
 mongoose.connect(db, {
-    useMongoClient: true,
-    /* other options */
+    useMongoClient: true
 }).then(() => {
     console.log("Connected to MongoDB using Mongoose on " + db);
 }).catch((err) => {

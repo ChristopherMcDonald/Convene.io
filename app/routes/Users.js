@@ -1,4 +1,4 @@
-module.exports = (app,jwt,scrypt, config) => {
+module.exports = (app, jwt, scrypt, config) => {
     var path = require('path');
     var Users = require('../schemas/Users.js');
     var Teams = require(path.resolve( __dirname, '../schemas/Teams.js'));
