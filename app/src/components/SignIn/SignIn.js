@@ -3,8 +3,6 @@ import axios from '../../rest/axios';
 import ConveneMessage from '../ConveneMessage/ConveneMessage';
 import './SignIn.css';
 
-import '../../lib/bootstrap-3.3.7/css/bootstrap.min.css';
-
 class SignIn extends Component {
     constructor(props) {
         super(props);
