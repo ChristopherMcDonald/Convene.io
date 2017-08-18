@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../rest/axios';
 import './Home.css';
-
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('JWT');
 
 class Home extends Component {
     constructor(props) {
@@ -14,7 +12,7 @@ class Home extends Component {
 
     componentWillMount() {
         var self = this;
-        axios.get('http://localhost:4000/user', { validateStatus: (status) => { return status < 500; }})
+        axios.get('http://localhost:4000/user')
             .then((response) => {
                 if(response.status === 401) {
                     window.location = "/";

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../rest/axios';
 import ConveneMessage from '../ConveneMessage/ConveneMessage';
 import './SignIn.css';
+
+import '../../lib/bootstrap-3.3.7/css/bootstrap.min.css';
 
 class SignIn extends Component {
     constructor(props) {
@@ -29,13 +31,12 @@ class SignIn extends Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
         var self = this;
         if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(this.state.email)) {
             // do request
-            axios.post('http://localhost:4000/user/login',
-                { email: this.state.email, password: this.state.password},
-                { validateStatus: (status) => { return status < 500; }
-            }).then((response) => {
+            axios.post('user/login', { email: this.state.email, password: this.state.password})
+            .then((response) => {
                 if(response.data.res === 'valid') {
                     localStorage.setItem('JWT', response.data.token);
                     window.location = '/home';
@@ -50,7 +51,6 @@ class SignIn extends Component {
         } else {
             self.showMessage('danger', 'That email doesn\'t look valid, please try again.');
         }
-        event.preventDefault();
     }
 
     navTo(link) {
