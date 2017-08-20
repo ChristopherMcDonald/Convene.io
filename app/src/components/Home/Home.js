@@ -12,7 +12,7 @@ class Home extends Component {
 
     componentWillMount() {
         var self = this;
-        axios.get('http://localhost:4000/user')
+        axios.get('user')
             .then((response) => {
                 if(response.status === 401) {
                     window.location = "/";
@@ -28,11 +28,22 @@ class Home extends Component {
     }
 
     render() {
-        return (
-            <div className='Home'>
-                <h1>Welcome {this.state.user.alias}</h1>
-            </div>
-    );
+        // only show something if user is logged in successfully
+        if(this.state.user.alias) {
+            return (
+                <div className='Home'>
+                    <h1>Welcome {this.state.user.alias}</h1>
+                    <button className='btn btn-danger' onClick={this.signOut}>Sign Out</button>
+                </div>
+            );
+        } else {
+            return <div></div>;
+        }
+    }
+
+    signOut() {
+        localStorage.removeItem('JWT');
+        window.location = "/";
     }
 }
 

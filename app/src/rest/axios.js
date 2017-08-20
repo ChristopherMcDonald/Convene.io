@@ -13,6 +13,8 @@ function post(path, body) {
                 if(path !== 'user/login') window.location = "/";
                 else resolve(response);
             } else {
+                if(response.headers.Authorization)
+                    localStorage.setItem('JWT', response.headers.Authorization);
                 resolve(response);
             }
         }).catch((error) => {
@@ -32,6 +34,8 @@ function get(path) {
             if(response.status === 401) {
                 window.location = "/";
             } else {
+                if(response.headers.Authorization)
+                    localStorage.setItem('JWT', response.headers.Authorization);
                 resolve(response);
             }
         }).catch((error) => {
@@ -51,6 +55,8 @@ function put(path, body) {
             if(response.status === 401) {
                 window.location = "/";
             } else {
+                if(response.headers.Authorization)
+                    localStorage.setItem('JWT', response.headers.Authorization);
                 resolve(response);
             }
         }).catch((error) => {
@@ -70,6 +76,8 @@ function del(path, body) {
             if(response.status === 401) {
                 window.location = "/";
             } else {
+                if(response.headers.Authorization)
+                    localStorage.setItem('JWT', response.headers.Authorization);
                 resolve(response);
             }
         }).catch((error) => {

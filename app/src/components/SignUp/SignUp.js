@@ -118,7 +118,7 @@ class SignUp extends Component {
         }
 
         var self = this;
-        axios.post('http://localhost:4000/user', user)
+        axios.post('user', user)
         .then((response) => {
             console.log(response);
             if(response.data.id) {

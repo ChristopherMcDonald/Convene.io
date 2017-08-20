@@ -56,7 +56,7 @@ class TeamSignUp extends Component {
         }
 
         var self = this;
-        axios.post('http://localhost:4000/team', team)
+        axios.post('team', team)
         .then((response) => {
             console.log(response);
             if(response.status === 201) {
