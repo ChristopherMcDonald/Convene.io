@@ -12,7 +12,6 @@ var jwt = require('jsonwebtoken');
 var whitelist = ['http://localhost:3000'];
 var corsOptions = {
     origin: (origin, callback) => {
-        console.log(origin);
         if (whitelist.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
