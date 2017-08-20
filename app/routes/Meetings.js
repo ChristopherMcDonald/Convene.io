@@ -1,4 +1,4 @@
-module.exports = function(app, jwt) {
+module.exports = (app, jwt) => {
     var path = require('path');
     var Meetings = require(path.resolve(__dirname, '../schemas/Meetings'));
     var Teams = require(path.resolve(__dirname, '../schemas/Teams'));
@@ -88,7 +88,9 @@ module.exports = function(app, jwt) {
                 res.status(404).send({description: "Not Found"});
                 return;
             }
-            meeting.invitedMembers = [...meeting.invitedMembers , ...req.body.emails];
+            req.body.emails.forEach(email => {
+                meeting.invitedMembers.push(email);
+            });
             meeting.save().then(meeting => {
                 res.status(201).send({meeting: meeting});
             }).catch(err => {

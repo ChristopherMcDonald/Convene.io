@@ -1,6 +1,6 @@
 {
     "port": 4000,
-    "secret": "1234567890",
+    "secret": "blubffghggffwd2384903nbckdbndhiwlkjbsdfjkjl",
     "db": {
         "test": "conveneTest",
         "local": "convene"

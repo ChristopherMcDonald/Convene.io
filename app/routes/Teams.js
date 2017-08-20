@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = app => {
     var path = require('path');
     console.log(path.resolve(__dirname, ""));
     var Teams = require(path.resolve( __dirname, '../schemas/Teams'));
@@ -58,7 +58,9 @@ module.exports = function(app) {
     app.put('/team/invite', (req, res) => {
         Teams.findOne({_id: req.jwt_auth.team}).then(team => {
             if(team) {
-                team.invitedMembers = [...team.invitedMembers, ...req.body.email]; // works for [String]
+                req.body.email.forEach(email => {
+                    team.invitedMembers.push(email);
+                });
                 team.save().then(team => {
                     res.status(201).send({team: team});
                 }).catch(err => {

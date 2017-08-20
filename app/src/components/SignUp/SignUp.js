@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../rest/axios';
 import ConveneMessage from '../ConveneMessage/ConveneMessage';
 import './SignUp.css';
 
@@ -118,7 +118,7 @@ class SignUp extends Component {
         }
 
         var self = this;
-        axios.post('http://localhost:4000/user', user, { validateStatus: (status) => { return status < 500; }})
+        axios.post('user', user)
         .then((response) => {
             console.log(response);
             if(response.data.id) {
