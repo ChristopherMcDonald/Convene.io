@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = app => {
     var path = require('path');
     console.log(path.resolve(__dirname, ""));
     var Teams = require(path.resolve( __dirname, '../schemas/Teams'));

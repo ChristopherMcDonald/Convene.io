@@ -1,4 +1,4 @@
-module.exports = function(app, jwt) {
+module.exports = (app, jwt) => {
     var path = require('path');
     var Meetings = require(path.resolve(__dirname, '../schemas/Meetings'));
     var Teams = require(path.resolve(__dirname, '../schemas/Teams'));
