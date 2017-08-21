@@ -38,7 +38,7 @@ class Home extends Component {
         // only show something if user is logged in successfully
         if(this.state.user.alias) {
             return (
-                <div className='Home toggled'>
+                <div className='Home'>
                     <div id="sidebar-wrapper">
                         <ul className="sidebar-nav">
                             <li className="sidebar-brand">
@@ -70,7 +70,6 @@ class Home extends Component {
                             <Route path='/home/feedback' render={props => <Feedback user={this.state.user} />}/>
                             <Route path='/home' render={props => <Dashboard user={this.state.user}/>}/>
                         </Switch>
-                        {/* Add some dashboard things, and a welcome things*/}
                     </div>
                 </div>
             );
