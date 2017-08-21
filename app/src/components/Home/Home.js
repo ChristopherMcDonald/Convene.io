@@ -3,6 +3,7 @@ import Meetings from '../Meetings/Meetings';
 import Team from '../Team/Team';
 import Settings from '../Settings/Settings';
 import Feedback from '../Feedback/Feedback';
+import Dashboard from '../Dashboard/Dashboard';
 import axios from '../../rest/axios';
 import './Home.css';
 
@@ -41,7 +42,7 @@ class Home extends Component {
                     <div id="sidebar-wrapper">
                         <ul className="sidebar-nav">
                             <li className="sidebar-brand">
-                                <h1>Convene.io</h1>
+                                <a href='/home'><h1>Convene.io</h1></a>
                             </li>
                             <li>
                                 <a href="/home/team">Team</a>
@@ -67,6 +68,7 @@ class Home extends Component {
                             <Route path='/home/team' render={props => <Team user={this.state.user} />}/>
                             <Route path='/home/settings' render={props => <Settings user={this.state.user} />}/>
                             <Route path='/home/feedback' render={props => <Feedback user={this.state.user} />}/>
+                            <Route path='/home' render={props => <Dashboard user={this.state.user}/>}/>
                         </Switch>
                         {/* Add some dashboard things, and a welcome things*/}
                     </div>
