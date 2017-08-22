@@ -1,5 +1,31 @@
 @import "../../styles/base";
 
+.Settings {
+    padding: 10% 20%;
+
+    h3 {
+        font-family: 'Open Sans';
+        font-size: 2em;
+        color: white;
+        padding-bottom: 10px;
+        text-align: center;
+    }
+
+    label {
+        font-family: 'Open Sans';
+        font-size: 1.2em;
+        padding-bottom: 5px;
+    }
+
+    label:not(:first-child) {
+        padding-top: 5px;
+    }
+
+    button {
+        margin-top: 10px;
+    }
+}
+
 h2 {
     color: white;
     font-family: 'Open Sans' !important;

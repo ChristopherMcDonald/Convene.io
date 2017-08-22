@@ -5,7 +5,7 @@ module.exports = (app, jwt, scrypt, config) => {
     var scryptParameters = scrypt.paramsSync(0.1);
 
     app.get('/user', (req, res) => {
-        Users.findOne({_id: req.jwt_auth.user}, 'email alias team').then((user) => {
+        Users.findOne({_id: req.jwt_auth.user}, 'user team alias name').then((user) => {
             if(user) {
                 // look up team name
                 res.status(200).send({res: "valid", user: user});

@@ -119,14 +119,14 @@ class SignUp extends Component {
 
         var self = this;
         axios.post('user', user)
-        .then((response) => {
+        .then(response => {
             console.log(response);
             if(response.data.id) {
                 window.location = '/';
             } else if(response.status === 422) {
                 self.showMessage('danger', response.data);
             }
-        }).catch((error) => {
+        }).catch(error => {
             console.log(error);
         });
     }
